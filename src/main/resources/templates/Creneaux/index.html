@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des créneaux</title>
+</head>
+
+<h2>Liste des créneaux disponibles</h2>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Heure Début</th>
+    <th>Heure Fin</th>
+    <th>Lieu</th>
+    <th>Statut</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="creneau : ${creneaux}">
+    <td th:text="${creneau.date}"></td>
+    <td th:text="${creneau.heureDebut}"></td>
+    <td th:text="${creneau.heureFin}"></td>
+    <td th:text="${creneau.lieu}"></td>
+    <td th:text="${creneau.reservePar == null ? 'Disponible' : 'Réservé'}"></td>
+    <td>
+      <!-- Réserver -->
+      <form th:if="${creneau.reservePar == null}" th:action="@{'/creneaux/reserver/' + ${creneau.id}}" method="post">
+        <button type="submit">Réserver</button>
+      </form>
+
+      <!-- Annuler -->
+      <form th:if="${creneau.reservePar != null and creneau.reservePar.id == utilisateur.id}" th:action="@{'/creneaux/annuler/' + ${creneau.id}}" method="post">
+        <button type="submit">Annuler</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
