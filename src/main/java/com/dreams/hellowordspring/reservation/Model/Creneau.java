@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "chreneau")
-public class Chreneau {
+@Table(name = "creneau")
+public class Creneau {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,9 +22,9 @@ public class Chreneau {
     @ManyToOne
     private Utilisateur reservePar; // Null si non réservé
 
-    public Chreneau() {}
+    public Creneau() {}
 
-    public Chreneau(Long id, LocalDateTime date, LocalDateTime heureDebut, LocalDateTime heureFin, String lieu, Utilisateur reservePar) {
+    public Creneau(Long id, LocalDateTime date, LocalDateTime heureDebut, LocalDateTime heureFin, String lieu, Utilisateur reservePar) {
         this.id = id;
         this.date = date;
         this.heureDebut = heureDebut;
