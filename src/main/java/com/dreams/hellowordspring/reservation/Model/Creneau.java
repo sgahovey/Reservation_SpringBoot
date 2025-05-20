@@ -2,6 +2,7 @@ package com.dreams.hellowordspring.reservation.Model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +14,7 @@ public class Creneau {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private LocalDateTime date;
+    private LocalDate date;
     private LocalDateTime heureDebut;
     private LocalDateTime heureFin;
 
@@ -24,7 +25,7 @@ public class Creneau {
 
     public Creneau() {}
 
-    public Creneau(Long id, LocalDateTime date, LocalDateTime heureDebut, LocalDateTime heureFin, String lieu, Utilisateur reservePar) {
+    public Creneau(Long id, LocalDate date, LocalDateTime heureDebut, LocalDateTime heureFin, String lieu, Utilisateur reservePar) {
         this.id = id;
         this.date = date;
         this.heureDebut = heureDebut;
@@ -41,11 +42,11 @@ public class Creneau {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
