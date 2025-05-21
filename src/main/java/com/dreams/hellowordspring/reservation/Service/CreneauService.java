@@ -93,5 +93,18 @@ public class CreneauService {
         return creneauRepository.findByReservePar(utilisateur);
     }
 
+    public boolean supprimerDemandeEnAttente(Long id, Utilisateur utilisateur) {
+        Optional<Creneau> creneauOpt = creneauRepository.findById(id);
+        if (creneauOpt.isPresent()) {
+            Creneau c = creneauOpt.get();
+            if (c.getReservePar() != null && c.getReservePar().getId().equals(utilisateur.getId())
+                    && c.getEtat() == Creneau.EtatCreneau.EN_ATTENTE) {
+                creneauRepository.deleteById(id);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
