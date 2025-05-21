@@ -4,31 +4,12 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-<h2 style="text-align: center;">Créneaux disponibles</h2>
+<h2 style="text-align: center;">Calendrier</h2>
 <div id="calendar"></div>
-<!-- Modal de demande -->
-<div id="demandeModal" style="display:none; position:fixed; top:15%; left:30%; width:40%; background:white; border:1px solid #ccc; padding:20px; z-index:1000;">
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h3 style="margin: 0;">Demander un créneau</h3>
-    <button type="button" onclick="fermerModal()" style="border: none; background: transparent; font-size: 18px; cursor: pointer;">✖</button>
-  </div>
-  <hr>
-  <form method="post" action="/creneaux/demander">
-    <input type="hidden" id="dateInput" name="date" />
+<script th:inline="javascript">
+  const isAdmin = /*[[${utilisateur != null and utilisateur.admin}]]*/ false;
+</script>
 
-    <label>Heure de début :</label><br>
-    <input type="time" name="heureDebut" required><br><br>
-
-    <label>Heure de fin :</label><br>
-    <input type="time" name="heureFin" required><br><br>
-
-    <label>Lieu :</label><br>
-    <input type="text" name="lieu" required><br><br>
-
-    <button type="submit">Envoyer la demande</button>
-    <button type="button" onclick="fermerModal()">Annuler</button>
-  </form>
-</div>
 
 <script>
   function ouvrirModal(dateStr) {
@@ -43,13 +24,16 @@
 
 
 <script>
-  function ouvrirModal(dateStr) {
-    document.getElementById("dateInput").value = dateStr;
-    document.getElementById("demandeModal").style.display = "block";
-  }
+  function ouvrirModal(dateStr, isAdmin) {
+    const url = isAdmin ? '/creneaux/formulaire-ajout?date=' : '/creneaux/formulaire-demande?date=';
 
-  function fermerModal() {
-    document.getElementById("demandeModal").style.display = "none";
+    fetch(url + dateStr)
+            .then(response => response.text())
+            .then(html => {
+              document.getElementById("contenuModalDemande").innerHTML = html;
+              const modal = new bootstrap.Modal(document.getElementById("modalDemande"));
+              modal.show();
+            });
   }
 
   function fermerDetails() {
@@ -65,12 +49,11 @@
       events: '/creneaux/api/creneaux-valides',
 
       dateClick: function(info) {
-        ouvrirModal(info.dateStr);
+        ouvrirModal(info.dateStr, isAdmin);
       },
 
-      // ✅ Lorsqu'on clique sur un créneau
       eventClick: function(info) {
-        const id = info.event.id; // ⚠️ tu dois avoir "id" dans ton JSON
+        const id = info.event.id;
         fetch(`/creneaux/details/${id}`)
                 .then(response => response.text())
                 .then(html => {
@@ -79,12 +62,12 @@
                   modal.show();
                 });
       }
-
     });
 
     calendar.render();
   });
 </script>
+
 
 
 <div class="modal fade" id="modalDetail" tabindex="-1">
@@ -95,6 +78,23 @@
   </div>
 </div>
 
+<!-- Modal de demande -->
+<div class="modal fade" id="modalDemande" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" id="contenuModalDemande">
+      <!-- Le HTML des détails sera injecté ici -->
+    </div>
+  </div>
+</div>
+
+<!-- Modal d' ajout -->
+<div class="modal fade" id="modalAjout" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" id="contenuModalAjout">
+      <!-- Le HTML des détails sera injecté ici -->
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
