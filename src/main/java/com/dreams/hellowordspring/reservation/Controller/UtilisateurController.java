@@ -2,6 +2,7 @@ package com.dreams.hellowordspring.reservation.Controller;
 
 import com.dreams.hellowordspring.reservation.Model.Utilisateur;
 import com.dreams.hellowordspring.reservation.Repository.UtilisateurRepository;
+import com.dreams.hellowordspring.reservation.Service.UtilisateurService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,11 +22,28 @@ public class UtilisateurController {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
+    @Autowired
+    private UtilisateurService utilisateurService;
     @GetMapping("/login")
     public String afficherLogin(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
         return "Utilisateurs/login";
     }
+    @PostMapping("/login")
+    public String traiterLogin(@ModelAttribute Utilisateur utilisateurFormulaire,
+                               HttpSession session,
+                               Model model) {
+        Utilisateur utilisateur = utilisateurService.verifierConnexion(utilisateurFormulaire.getPseudo(), utilisateurFormulaire.getPassword());
+
+        if (utilisateur != null) {
+            session.setAttribute("utilisateur", utilisateur); // 🔐 Stocke dans la session
+            return "redirect:/accueil"; // ou la page d'accueil/admin
+        } else {
+            model.addAttribute("erreur", "Identifiants invalides");
+            return "Utilisateurs/login";
+        }
+    }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -62,6 +80,8 @@ public class UtilisateurController {
 
         return "redirect:/login?registerSuccess";
     }
+
+
 
     private Utilisateur getUtilisateurConnecte() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

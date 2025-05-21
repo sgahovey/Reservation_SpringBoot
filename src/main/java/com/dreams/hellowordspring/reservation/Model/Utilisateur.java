@@ -3,6 +3,7 @@ package com.dreams.hellowordspring.reservation.Model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -103,11 +104,15 @@ public class Utilisateur implements UserDetails {
     }
 
     // 🛡️ Implémentation de UserDetails :
-    @Override
 
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // ou gérer les rôles plus tard
+        if (this.admin) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN")); // ← ici
+        }
+        return List.of();
     }
+
 
     @Override
     public String getUsername() {
