@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "creneau")
@@ -15,8 +16,8 @@ public class Creneau {
     private Long id;
 
     private LocalDate date;
-    private LocalDateTime heureDebut;
-    private LocalDateTime heureFin;
+    private LocalTime heureDebut;
+    private LocalTime heureFin;
 
     private String lieu;
 
@@ -37,7 +38,7 @@ public class Creneau {
 
     public Creneau() {}
 
-    public Creneau(Long id, LocalDate date, LocalDateTime heureDebut, LocalDateTime heureFin, String lieu, Utilisateur reservePar, EtatCreneau etat) {
+    public Creneau(Long id, LocalDate date, LocalTime heureDebut, LocalTime heureFin, String lieu, Utilisateur reservePar, EtatCreneau etat) {
         this.id = id;
         this.date = date;
         this.heureDebut = heureDebut;
@@ -67,7 +68,7 @@ public class Creneau {
         return heureDebut;
     }
 
-    public void setHeureDebut(LocalDateTime heureDebut) {
+    public void setHeureDebut(LocalTime heureDebut) {
         this.heureDebut = heureDebut;
     }
 
@@ -75,7 +76,7 @@ public class Creneau {
         return heureFin;
     }
 
-    public void setHeureFin(LocalDateTime heureFin) {
+    public void setHeureFin(LocalTime heureFin) {
         this.heureFin = heureFin;
     }
 
