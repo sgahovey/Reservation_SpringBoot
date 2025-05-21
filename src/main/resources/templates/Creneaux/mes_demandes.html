@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h2>Mes demandes</h2>
+<p th:if="${param.annule == 'true'}" style="color:green;">Demande annulée avec succès.</p>
+<p th:if="${param.annule == 'false'}" style="color:red;">Impossible d’annuler la demande.</p>
+
+<table border="1">
+  <tr>
+    <th>Date</th>
+    <th>Heure Début</th>
+    <th>Heure Fin</th>
+    <th>Lieu</th>
+    <th>État</th>
+    <th>Actions</th>
+  </tr>
+  <tr th:each="creneau : ${mesCreneaux}">
+    <td th:text="${creneau.date}"></td>
+    <td th:text="${creneau.heureDebut}"></td>
+    <td th:text="${creneau.heureFin}"></td>
+    <td th:text="${creneau.lieu}"></td>
+    <td th:text="${creneau.etat}"></td>
+    <td>
+      <form th:if="${creneau.etat.name() == 'EN_ATTENTE'}"
+            th:action="@{'/creneaux/annuler-demande/' + ${creneau.id}}"
+            method="post">
+        <button type="submit">Annuler</button>
+      </form>
+      <span th:if="${creneau.etat.name() != 'EN_ATTENTE'}">-</span>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
