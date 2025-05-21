@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <title>Liste des créneaux</title>
 </head>
+<body>
+
+<!-- Affichage du pseudo et bouton logout -->
+<div th:if="${utilisateur != null}">
+  Connecté en tant que : <strong th:text="${utilisateur.pseudo}"></strong>
+  <form th:action="@{/logout}" method="get" style="display:inline;">
+    <button type="submit">Déconnexion</button>
+  </form>
+</div>
 
 <h2>Liste des créneaux disponibles</h2>
 
@@ -32,13 +41,19 @@
       </form>
 
       <!-- Annuler -->
-      <form th:if="${creneau.reservePar != null and creneau.reservePar.id == utilisateur.id}" th:action="@{'/creneaux/annuler/' + ${creneau.id}}" method="post">
+      <form th:if="${creneau.reservePar != null and utilisateur != null and creneau.reservePar.id == utilisateur.id}"
+            th:action="@{'/creneaux/annuler/' + ${creneau.id}}" method="post">
         <button type="submit">Annuler</button>
       </form>
     </td>
   </tr>
   </tbody>
 </table>
+<div th:if="${utilisateur != null and !utilisateur.admin}">
+  <a th:href="@{/creneaux/demander}">
+    <button>Faire une demande de créneau</button>
+  </a>
+</div>
 
 </body>
 </html>
