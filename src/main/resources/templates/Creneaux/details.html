@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h5 class="modal-title">Détail du créneau</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+</div>
+<div class="modal-body">
+    <p><strong>📍 Lieu :</strong> <span th:text="${creneau.lieu}"></span></p>
+    <p><strong>📅 Date :</strong> <span th:text="${creneau.date}"></span></p>
+    <p><strong>🕐 Heure de début :</strong> <span th:text="${creneau.heureDebut}"></span></p>
+    <p><strong>🕒 Heure de fin :</strong> <span th:text="${creneau.heureFin}"></span></p>
+    <p><strong>⏱️ Durée :</strong> <span th:text="${duree}"></span></p>
+
+    <div th:if="${utilisateur != null and utilisateur.admin}">
+        <p><strong>👤 Réservé par :</strong>
+            <span th:text="${creneau.reservePar.prenom + ' ' + creneau.reservePar.nom + ' (' + creneau.reservePar.pseudo + ')'}"></span>
+        </p>
+    </div>
+
+    <p><strong>📝 Statut :</strong>
+        <span th:switch="${creneau.etat}">
+      <span th:case="'VALIDE'" class="text-success fw-bold">Validé</span>
+      <span th:case="'EN_ATTENTE'" class="text-warning fw-bold">En attente</span>
+      <span th:case="'REFUSE'" class="text-danger fw-bold">Refusé</span>
+    </span>
+    </p>
+</div>
+<div class="modal-footer">
+    <div th:if="${utilisateur != null and utilisateur.admin}">
+        <form th:action="@{'/creneaux/delete/' + ${creneau.id}}" method="post"
+              onsubmit="return confirm('Confirmer la suppression du créneau ?');">
+            <button type="submit" class="btn btn-danger">🗑 Supprimer</button>
+        </form>
+    </div>
+
+</div>

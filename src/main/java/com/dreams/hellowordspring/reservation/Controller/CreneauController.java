@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.*;
 
 @Controller
@@ -128,6 +129,7 @@ public class CreneauController {
 
         for (Creneau c : liste) {
             Map<String, Object> evt = new HashMap<>();
+            evt.put("id", c.getId()); // ✅ ICI pour permettre le clic vers /details/{id}
             evt.put("title", c.getLieu());
 
             // ✅ Combine date et heure début et fin au format ISO
@@ -151,12 +153,34 @@ public class CreneauController {
     public String afficherDetailsCreneau(@PathVariable Long id, Model model) {
         Optional<Creneau> opt = creneauService.findById(id);
         if (opt.isPresent()) {
-            model.addAttribute("creneau", opt.get());
+            Creneau creneau = opt.get();
+
+            // Durée calculée
+            Duration duree = Duration.between(creneau.getHeureDebut(), creneau.getHeureFin());
+            long heures = duree.toHours();
+            long minutes = duree.toMinutes() % 60;
+            String dureeFormatee = heures + "h" + (minutes > 0 ? minutes : "");
+
+            // Utilisateur connecté (si tu utilises Spring Security)
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Utilisateur utilisateur = (auth.getPrincipal() instanceof Utilisateur) ? (Utilisateur) auth.getPrincipal() : null;
+
+            model.addAttribute("creneau", creneau);
+            model.addAttribute("duree", dureeFormatee);
+            model.addAttribute("utilisateur", utilisateur); // ✅ Ajout pour vérifier admin
+
             return "creneaux/details";
         } else {
             return "redirect:/creneaux";
         }
     }
+
+    @PostMapping("/delete/{id}")
+    public String supprimerCreneau(@PathVariable Long id) {
+        creneauService.deleteById(id); // ou une méthode sécurisée
+        return "redirect:/creneaux?deleteSuccess";
+    }
+
 
 
 }
