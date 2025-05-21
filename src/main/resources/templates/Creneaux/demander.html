@@ -1,0 +1,30 @@
+<div th:fragment="modalForm">
+    <div class="modal-header">
+        <h5 class="modal-title">Demande de créneau</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+    </div>
+    <div class="modal-body">
+        <form method="post" action="/creneaux/demander">
+            <input type="hidden" id="dateInput" name="date" th:value="${creneau.date}" />
+
+            <div class="mb-3">
+                <label for="heureDebut" class="form-label">Heure de début :</label>
+                <input type="time" class="form-control" id="heureDebut" name="heureDebut" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="heureFin" class="form-label">Heure de fin :</label>
+                <input type="time" class="form-control" id="heureFin" name="heureFin" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="lieu" class="form-label">Lieu :</label>
+                <input type="text" class="form-control" id="lieu" name="lieu" required>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Envoyer la demande</button>
+            </div>
+        </form>
+    </div>
+</div>
