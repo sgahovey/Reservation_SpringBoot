@@ -11,12 +11,6 @@
   </form>
 </div>
 
-<!-- FullCalendar CSS -->
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" rel="stylesheet" />
-
-<!-- FullCalendar JS -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
-
 <h2 style="text-align: center;">Créneaux disponibles</h2>
 <div id="calendar"></div>
 <!-- Modal de demande -->
@@ -56,13 +50,14 @@
 
 
 <script>
+
   document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       locale: 'fr',
-      events: '/api/creneaux-valides',
+      events: '/creneaux/api/creneaux-valides',
       dateClick: function(info) {
         ouvrirModal(info.dateStr); // Ouvre la modal
       }
