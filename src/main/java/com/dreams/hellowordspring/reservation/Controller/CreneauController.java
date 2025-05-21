@@ -10,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/creneaux")
@@ -132,9 +129,34 @@ public class CreneauController {
         for (Creneau c : liste) {
             Map<String, Object> evt = new HashMap<>();
             evt.put("title", c.getLieu());
-            evt.put("start", c.getDate().toString()); // ou c.getDateTimeDebut().toString()
+
+            // ✅ Combine date et heure début et fin au format ISO
+            evt.put("start", c.getDate().toString() + "T" + c.getHeureDebut().toString());
+            evt.put("end", c.getDate().toString() + "T" + c.getHeureFin().toString());
+
+            // Props supplémentaires
+            evt.put("extendedProps", Map.of(
+                    "lieu", c.getLieu(),
+                    "date", c.getDate().toString(),
+                    "heureDebut", c.getHeureDebut().toString(),
+                    "heureFin", c.getHeureFin().toString()
+            ));
             resultats.add(evt);
         }
         return resultats;
     }
+
+
+    @GetMapping("/details/{id}")
+    public String afficherDetailsCreneau(@PathVariable Long id, Model model) {
+        Optional<Creneau> opt = creneauService.findById(id);
+        if (opt.isPresent()) {
+            model.addAttribute("creneau", opt.get());
+            return "creneaux/details";
+        } else {
+            return "redirect:/creneaux";
+        }
+    }
+
+
 }
