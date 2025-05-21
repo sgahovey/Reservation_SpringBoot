@@ -23,15 +23,28 @@ public class Creneau {
     @ManyToOne
     private Utilisateur reservePar; // Null si non réservé
 
+    @Enumerated(EnumType.STRING)
+    private EtatCreneau etat = EtatCreneau.EN_ATTENTE; //Par défaut en attente
+
+    public enum EtatCreneau {
+        EN_ATTENTE,
+        VALIDE
+    }
+
+
+
+
+
     public Creneau() {}
 
-    public Creneau(Long id, LocalDate date, LocalDateTime heureDebut, LocalDateTime heureFin, String lieu, Utilisateur reservePar) {
+    public Creneau(Long id, LocalDate date, LocalDateTime heureDebut, LocalDateTime heureFin, String lieu, Utilisateur reservePar, EtatCreneau etat) {
         this.id = id;
         this.date = date;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
         this.lieu = lieu;
         this.reservePar = reservePar;
+        this.etat = etat;
     }
 
     public Long getId() {
@@ -80,5 +93,13 @@ public class Creneau {
 
     public void setReservePar(Utilisateur reservePar) {
         this.reservePar = reservePar;
+    }
+
+    public EtatCreneau getEtat() {
+        return etat;
+    }
+
+    public void setEtat(EtatCreneau etat) {
+        this.etat = etat;
     }
 }
