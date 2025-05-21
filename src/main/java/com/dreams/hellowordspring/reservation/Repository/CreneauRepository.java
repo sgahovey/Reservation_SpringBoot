@@ -13,4 +13,8 @@ public interface CreneauRepository extends CrudRepository<Creneau, Long> {
 
     // Filtrage par date
     List<Creneau> findByDate(LocalDate date);
+
+    List<Creneau> findByEtat(Creneau.EtatCreneau etat);
+
+
 }
