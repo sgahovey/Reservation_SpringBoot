@@ -1,17 +1,20 @@
-    <div th:fragment="header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 py-2">
-            <a class="navbar-brand" href="#">Réservation</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item" th:if="${utilisateur != null}">
-                        <span class="navbar-text me-3">
-                            Connecté en tant que : <strong th:text="${utilisateur.pseudo}">Pseudo</strong>
-                        </span>
-                        <form th:action="@{/logout}" method="get" class="d-inline">
-                            <button type="submit" class="btn btn-outline-danger btn-sm">Déconnexion</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+<div th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 py-2 shadow-sm">
+        <a class="navbar-brand fw-bold text-primary" href="#">Réservation</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item" th:if="${utilisateur != null}">
+                    <span class="navbar-text me-3">
+                        Connecté en tant que :
+                        <strong th:text="${utilisateur.pseudo}">Pseudo</strong>
+                        <span th:if="${utilisateur.admin}"
+                              class="badge bg-warning text-dark ms-2">ADMIN</span>
+                    </span>
+                    <form th:action="@{/logout}" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Déconnexion</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
