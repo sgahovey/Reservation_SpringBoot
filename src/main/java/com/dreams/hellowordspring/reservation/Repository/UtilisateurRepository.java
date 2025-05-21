@@ -12,4 +12,6 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
     // Authentification par pseudo et mot de passe
 
     Optional<Utilisateur> findByPseudoAndPassword(String pseudo, String password);
+
+
 }
