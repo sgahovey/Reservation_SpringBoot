@@ -72,5 +72,23 @@ public class CreneauService {
     public void deleteById(Long id) {
         creneauRepository.deleteById(id);
     }
+
+    public List<Creneau> getCreneauxEnAttente() {
+        return creneauRepository.findByEtat(Creneau.EtatCreneau.EN_ATTENTE);
+    }
+
+    public void validerCreneau(Long id) {
+        Optional<Creneau> creneau = creneauRepository.findById(id);
+        creneau.ifPresent(c -> {
+            c.setEtat(Creneau.EtatCreneau.VALIDE);
+            creneauRepository.save(c);
+        });
+    }
+
+    public void refuserCreneau(Long id) {
+        creneauRepository.deleteById(id);
+    }
+
+
 }
 
