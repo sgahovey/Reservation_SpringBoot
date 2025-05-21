@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demander un créneau</title>
+</head>
+<body>
+
+<h2>Demander un créneau</h2>
+<p th:if="${param.demandeSuccess}" style="color:green;">Votre demande a été envoyée !</p>
+
+<form th:action="@{/creneaux/demander}" method="post" th:object="${creneau}">
+    <label>Date :</label>
+    <input type="date" th:field="*{date}" required><br><br>
+
+    <label>Heure de début :</label>
+    <input type="time" th:field="*{heureDebut}" required><br><br>
+
+    <label>Heure de fin :</label>
+    <input type="time" th:field="*{heureFin}" required><br><br>
+
+    <label>Lieu :</label>
+    <input type="text" th:field="*{lieu}" required><br><br>
+
+    <button type="submit">Envoyer la demande</button>
+</form>
+
+</body>
+</html>
