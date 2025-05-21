@@ -93,11 +93,19 @@ public class CreneauController {
         return "redirect:/creneaux/demandes";
     }
 
-    @GetMapping("/mes-demandes")
+    @GetMapping("/mes_demandes")
     public String afficherMesDemandes(Model model) {
         Utilisateur utilisateur = getUtilisateurConnecte();
         model.addAttribute("mesCreneaux", creneauService.getCreneauxParUtilisateur(utilisateur));
         return "creneaux/mes_demandes";
     }
+
+    @PostMapping("/annuler-demande/{id}")
+    public String annulerDemande(@PathVariable Long id) {
+        Utilisateur utilisateur = getUtilisateurConnecte();
+        creneauService.supprimerDemandeEnAttente(id, utilisateur);
+        return "redirect:/creneaux/mes_demandes";
+    }
+
 
 }
