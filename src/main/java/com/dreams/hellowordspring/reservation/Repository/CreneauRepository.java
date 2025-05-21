@@ -1,6 +1,7 @@
 package com.dreams.hellowordspring.reservation.Repository;
 
 import com.dreams.hellowordspring.reservation.Model.Creneau;
+import com.dreams.hellowordspring.reservation.Model.Utilisateur;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
@@ -15,6 +16,8 @@ public interface CreneauRepository extends CrudRepository<Creneau, Long> {
     List<Creneau> findByDate(LocalDate date);
 
     List<Creneau> findByEtat(Creneau.EtatCreneau etat);
+
+    List<Creneau> findByReservePar(Utilisateur utilisateur);
 
 
 }
