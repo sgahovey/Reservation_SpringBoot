@@ -64,7 +64,7 @@ public class Creneau {
         this.date = date;
     }
 
-    public LocalDateTime getHeureDebut() {
+    public LocalTime getHeureDebut() {
         return heureDebut;
     }
 
@@ -72,7 +72,7 @@ public class Creneau {
         this.heureDebut = heureDebut;
     }
 
-    public LocalDateTime getHeureFin() {
+    public LocalTime getHeureFin() {
         return heureFin;
     }
 
