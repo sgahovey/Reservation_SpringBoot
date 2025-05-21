@@ -89,6 +89,9 @@ public class CreneauService {
         creneauRepository.deleteById(id);
     }
 
+    public List<Creneau> getCreneauxParUtilisateur(Utilisateur utilisateur) {
+        return creneauRepository.findByReservePar(utilisateur);
+    }
 
 }
 
