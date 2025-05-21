@@ -2,11 +2,16 @@ package com.dreams.hellowordspring.reservation.Model;
 
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
 @Table(name = "utilisateur")
-public class Utilisateur {
+public class Utilisateur implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -22,7 +27,8 @@ public class Utilisateur {
     @OneToMany(mappedBy = "reservePar")
     private List<Creneau> creneauxReserves;
 
-    public Utilisateur() {}
+    public Utilisateur() {
+    }
 
     public Utilisateur(Long id, String nom, String prenom, String pseudo, String email, String password, boolean admin, List<Creneau> creneauxReserves) {
         this.id = id;
@@ -75,9 +81,6 @@ public class Utilisateur {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -98,4 +101,43 @@ public class Utilisateur {
     public void setCreneauxReserves(List<Creneau> creneauxReserves) {
         this.creneauxReserves = creneauxReserves;
     }
+
+    // 🛡️ Implémentation de UserDetails :
+    @Override
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList(); // ou gérer les rôles plus tard
+    }
+
+    @Override
+    public String getUsername() {
+        return pseudo; // ⚠️ utilisé par Spring Security
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
 }

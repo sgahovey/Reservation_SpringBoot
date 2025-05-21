@@ -4,6 +4,9 @@ import com.dreams.hellowordspring.reservation.Model.Utilisateur;
 import com.dreams.hellowordspring.reservation.Repository.UtilisateurRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,31 +21,53 @@ public class UtilisateurController {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
-    // Affiche le formulaire de connexion
     @GetMapping("/login")
     public String afficherLogin(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
-        return "utilisateur/login"; // /templates/utilisateur/login.html
+        return "Utilisateurs/login";
     }
 
-    // Traite la soumission du formulaire
-    @PostMapping("/login")
-    public String connexion(@ModelAttribute Utilisateur utilisateur, HttpSession session, Model model) {
-        Optional<Utilisateur> user = utilisateurRepository.findByPseudoAndPassword(utilisateur.getPseudo(), utilisateur.getPassword());
-
-        if (user.isPresent()) {
-            session.setAttribute("utilisateur", user.get());
-            return "redirect:/creneaux";
-        } else {
-            model.addAttribute("erreur", "Identifiants incorrects");
-            return "utilisateur/login";
-        }
-    }
-
-    // Déconnexion
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
+    }
+
+    @GetMapping("/register")
+    public String afficherFormulaireInscription(Model model) {
+        Utilisateur utilisateurConnecte = getUtilisateurConnecte();
+        model.addAttribute("utilisateur", new Utilisateur());
+        model.addAttribute("utilisateurSession", utilisateurConnecte);
+        return "Utilisateurs/register";
+    }
+
+    @PostMapping("/register")
+    public String enregistrerUtilisateur(@ModelAttribute Utilisateur utilisateur, Model model) {
+        Utilisateur utilisateurConnecte = getUtilisateurConnecte();
+
+        Optional<Utilisateur> existingUser = utilisateurRepository.findByPseudo(utilisateur.getPseudo());
+        if (existingUser.isPresent()) {
+            model.addAttribute("erreur", "Ce pseudo est déjà utilisé.");
+            model.addAttribute("utilisateurSession", utilisateurConnecte);
+            return "Utilisateurs/register";
+        }
+
+        if (utilisateurConnecte == null || !utilisateurConnecte.isAdmin()) {
+            utilisateur.setAdmin(false);
+        }
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        utilisateur.setPassword(encoder.encode(utilisateur.getPassword()));
+        utilisateurRepository.save(utilisateur);
+
+        return "redirect:/login?registerSuccess";
+    }
+
+    private Utilisateur getUtilisateurConnecte() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof Utilisateur) {
+            return (Utilisateur) auth.getPrincipal();
+        }
+        return null;
     }
 }

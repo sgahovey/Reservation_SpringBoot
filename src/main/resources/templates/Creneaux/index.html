@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des créneaux</title>
-</head>
+<head th:replace="fragments/head :: head"></head>
 <body>
 
 <!-- Affichage du pseudo et bouton logout -->
@@ -14,46 +11,84 @@
   </form>
 </div>
 
-<h2>Liste des créneaux disponibles</h2>
+<!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" rel="stylesheet" />
 
-<table border="1">
-  <thead>
-  <tr>
-    <th>Date</th>
-    <th>Heure Début</th>
-    <th>Heure Fin</th>
-    <th>Lieu</th>
-    <th>Statut</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="creneau : ${creneaux}">
-    <td th:text="${creneau.date}"></td>
-    <td th:text="${creneau.heureDebut}"></td>
-    <td th:text="${creneau.heureFin}"></td>
-    <td th:text="${creneau.lieu}"></td>
-    <td th:text="${creneau.reservePar == null ? 'Disponible' : 'Réservé'}"></td>
-    <td>
-      <!-- Réserver -->
-      <form th:if="${creneau.reservePar == null}" th:action="@{'/creneaux/reserver/' + ${creneau.id}}" method="post">
-        <button type="submit">Réserver</button>
-      </form>
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
-      <!-- Annuler -->
-      <form th:if="${creneau.reservePar != null and utilisateur != null and creneau.reservePar.id == utilisateur.id}"
-            th:action="@{'/creneaux/annuler/' + ${creneau.id}}" method="post">
-        <button type="submit">Annuler</button>
-      </form>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<h2 style="text-align: center;">Créneaux disponibles</h2>
+<div id="calendar"></div>
+<!-- Modal de demande -->
+<div id="demandeModal" style="display:none; position:fixed; top:15%; left:30%; width:40%; background:white; border:1px solid #ccc; padding:20px; z-index:1000;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h3 style="margin: 0;">Demander un créneau</h3>
+    <button type="button" onclick="fermerModal()" style="border: none; background: transparent; font-size: 18px; cursor: pointer;">✖</button>
+  </div>
+  <hr>
+  <form method="post" action="/creneaux/demander">
+    <input type="hidden" id="dateInput" name="date" />
+
+    <label>Heure de début :</label><br>
+    <input type="time" name="heureDebut" required><br><br>
+
+    <label>Heure de fin :</label><br>
+    <input type="time" name="heureFin" required><br><br>
+
+    <label>Lieu :</label><br>
+    <input type="text" name="lieu" required><br><br>
+
+    <button type="submit">Envoyer la demande</button>
+    <button type="button" onclick="fermerModal()">Annuler</button>
+  </form>
+</div>
+
+<script>
+  function ouvrirModal(dateStr) {
+    document.getElementById("dateInput").value = dateStr;
+    document.getElementById("demandeModal").style.display = "block";
+  }
+
+  function fermerModal() {
+    document.getElementById("demandeModal").style.display = "none";
+  }
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'fr',
+      events: '/api/creneaux-valides',
+      dateClick: function(info) {
+        ouvrirModal(info.dateStr); // Ouvre la modal
+      }
+    });
+
+    calendar.render();
+  });
+</script>
+
+
 <div th:if="${utilisateur != null and !utilisateur.admin}">
   <a th:href="@{/creneaux/demander}">
     <button>Faire une demande de créneau</button>
   </a>
 </div>
 
+<div th:if="${utilisateur != null and utilisateur.admin}">
+  <a th:href="@{/creneaux/demandes}">
+    <button>Gérer les demandes de créneaux</button>
+  </a>
+</div>
+
+<div th:if="${utilisateur != null and !utilisateur.admin}">
+  <a th:href="@{/creneaux/mes_demandes}">
+    <button>Voir mes demandes de créneaux</button>
+  </a>
+</div>
 </body>
 </html>

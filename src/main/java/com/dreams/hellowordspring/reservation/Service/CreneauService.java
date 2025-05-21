@@ -106,5 +106,10 @@ public class CreneauService {
         return false;
     }
 
+    public List<Creneau> getCreneauxValides() {
+        return creneauRepository.findByEtat(Creneau.EtatCreneau.VALIDE);
+    }
+
+
 }
 

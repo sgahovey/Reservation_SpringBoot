@@ -10,6 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/creneaux")
 public class CreneauController {
@@ -69,11 +74,15 @@ public class CreneauController {
 
     @PostMapping("/demander")
     public String demanderCreneau(@ModelAttribute Creneau creneau) {
-        // On fixe automatiquement l'état à EN_ATTENTE
+        Utilisateur utilisateur = getUtilisateurConnecte();
+
         creneau.setEtat(Creneau.EtatCreneau.EN_ATTENTE);
+        creneau.setReservePar(utilisateur); // 🔥 attache l'utilisateur connecté à la demande
+
         creneauService.save(creneau);
         return "redirect:/creneaux?demandeSuccess";
     }
+
 
     @GetMapping("/demandes")
     public String afficherDemandes(Model model) {
@@ -107,5 +116,25 @@ public class CreneauController {
         return "redirect:/creneaux/mes_demandes";
     }
 
+    @GetMapping("/calendrier")
+    public String afficherCalendrier() {
+        return "creneaux/calendrier";
+    }
 
+
+    //API
+    @GetMapping("/api/creneaux-valides")
+    @ResponseBody
+    public List<Map<String, Object>> getCreneauxValides() {
+        List<Creneau> liste = creneauService.getCreneauxValides();
+        List<Map<String, Object>> resultats = new ArrayList<>();
+
+        for (Creneau c : liste) {
+            Map<String, Object> evt = new HashMap<>();
+            evt.put("title", c.getLieu());
+            evt.put("start", c.getDate().toString()); // ou c.getDateTimeDebut().toString()
+            resultats.add(evt);
+        }
+        return resultats;
+    }
 }
