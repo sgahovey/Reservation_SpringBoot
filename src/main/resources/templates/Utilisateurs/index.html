@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<h2>Liste des utilisateurs</h2>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Pseudo</th>
+        <th>Email</th>
+        <th>Admin</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${utilisateurs}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.nom}"></td>
+        <td th:text="${u.prenom}"></td>
+        <td th:text="${u.pseudo}"></td>
+        <td th:text="${u.email}"></td>
+        <td th:text="${u.admin ? 'Oui' : 'Non'}"></td>
+        <td>
+            <a th:href="@{'/utilisateurs/modifier/' + ${u.id}}">✏️</a>
+            <a th:href="@{'/utilisateurs/supprimer/' + ${u.id}}"
+               onclick="return confirm('Confirmer la suppression ?')">❌</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

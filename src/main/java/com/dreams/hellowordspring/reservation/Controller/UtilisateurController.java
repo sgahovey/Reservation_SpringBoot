@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -90,4 +92,37 @@ public class UtilisateurController {
         }
         return null;
     }
+
+    @GetMapping("/utilisateurs")
+    public String listeUtilisateurs(Model model) {
+        List<Utilisateur> utilisateurs = utilisateurService.getAllUtilisateurs();
+        model.addAttribute("utilisateurs", utilisateurs);
+        return "utilisateurs/index";
+    }
+
+    @GetMapping("/utilisateurs/nouveau")
+    public String formulaireAjout(Model model) {
+        model.addAttribute("utilisateur", new Utilisateur());
+        return "utilisateurs/form_utilisateur";
+    }
+
+    @PostMapping("/utilisateurs")
+    public String enregistrer(@ModelAttribute Utilisateur utilisateur) {
+        utilisateurService.save(utilisateur);
+        return "redirect:/utilisateurs";
+    }
+
+    @GetMapping("/utilisateurs/modifier/{id}")
+    public String formulaireModif(@PathVariable Long id, Model model) {
+        Utilisateur utilisateur = utilisateurService.getById(id);
+        model.addAttribute("utilisateur", utilisateur);
+        return "utilisateurs/form_utilisateur";
+    }
+
+    @GetMapping("/utilisateurs/supprimer/{id}")
+    public String supprimer(@PathVariable Long id) {
+        utilisateurService.delete(id);
+        return "redirect:/utilisateurs";
+    }
+
 }
