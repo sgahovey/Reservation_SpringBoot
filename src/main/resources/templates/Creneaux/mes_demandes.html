@@ -10,19 +10,35 @@
 
 <table border="1">
   <tr>
-    <th>Date</th>
+    <th>
+      <a th:href="@{/creneaux/mes_demandes(sort='date', direction=${sort == 'date' and direction == 'asc' ? 'desc' : 'asc'})}">
+        Date
+        <span th:if="${sort == 'date'}" th:text="${direction == 'asc' ? '▲' : '▼'}"></span>
+      </a>
+    </th>
     <th>Heure Début</th>
     <th>Heure Fin</th>
     <th>Lieu</th>
-    <th>État</th>
+    <th>
+      <a th:href="@{/creneaux/mes_demandes(sort='etat', direction=${sort == 'etat' and direction == 'asc' ? 'desc' : 'asc'})}">
+        État
+        <span th:if="${sort == 'etat'}" th:text="${direction == 'asc' ? '▲' : '▼'}"></span>
+      </a>
+    </th>
     <th>Actions</th>
   </tr>
+
   <tr th:each="creneau : ${mesCreneaux}">
     <td th:text="${creneau.date}"></td>
     <td th:text="${creneau.heureDebut}"></td>
     <td th:text="${creneau.heureFin}"></td>
     <td th:text="${creneau.lieu}"></td>
-    <td th:text="${creneau.etat}"></td>
+    <td>
+      <span th:if="${creneau.etat.name() == 'VALIDE'}" class="badge bg-success">Validé</span>
+      <span th:if="${creneau.etat.name() == 'EN_ATTENTE'}" class="badge bg-warning text-dark">En attente</span>
+      <span th:if="${creneau.etat.name() == 'REFUSE'}" class="badge bg-danger">Refusé</span>
+    </td>
+
     <td>
       <form th:if="${creneau.etat.name() == 'EN_ATTENTE'}"
             th:action="@{'/creneaux/annuler-demande/' + ${creneau.id}}"

@@ -4,7 +4,7 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container mt-4">
+<x></x><div class="container mt-4">
     <h2 class="text-center">Historique des demandes de créneau</h2>
 
     <!-- Filtres -->
@@ -60,7 +60,11 @@
                       th:text="${creneau.reservePar.prenom + ' ' + creneau.reservePar.nom + ' (' + creneau.reservePar.pseudo + ')'}"></span>
                 <span th:if="${creneau.reservePar == null}" class="text-muted fst-italic">-</span>
             </td>
-            <td><span th:text="${creneau.etat}"></span></td>
+            <td>
+                <span th:if="${creneau.etat.name() == 'VALIDE'}" class="badge bg-success">Validé</span>
+                <span th:if="${creneau.etat.name() == 'EN_ATTENTE'}" class="badge bg-warning text-dark">En attente</span>
+                <span th:if="${creneau.etat.name() == 'REFUSE'}" class="badge bg-danger">Refusé</span>
+            </td>
 
         </tr>
         <tr th:if="${#lists.isEmpty(demandes)}">
