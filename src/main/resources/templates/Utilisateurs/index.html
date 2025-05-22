@@ -37,7 +37,7 @@
         <td th:text="${u.email}"></td>
         <td th:text="${u.admin ? 'Oui' : 'Non'}"></td>
         <td>
-            <a th:href="@{'/utilisateurs/modifier/' + ${u.id}}">✏️</a>
+            <a href="#" th:data-id="${u.id}" class="btn-modifier">✏️</a>
             <a th:href="@{'/utilisateurs/supprimer/' + ${u.id}}"
                onclick="return confirm('Confirmer la suppression ?')">❌</a>
         </td>
@@ -59,19 +59,49 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Formulaire d'ajout
         const ajoutModal = document.getElementById('ajoutUtilisateurModal');
         ajoutModal.addEventListener('show.bs.modal', function () {
             fetch('/utilisateurs/ajouter')
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('contenuModalAjout').innerHTML = html;
-                })
-                .catch(error => {
-                    console.error("Erreur lors du chargement du formulaire :", error);
                 });
+        });
+
+        // Formulaire de modification
+        document.querySelectorAll('.btn-modifier').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const id = this.getAttribute('data-id');
+                const modifierModal = new bootstrap.Modal(document.getElementById('modifierUtilisateurModal'));
+                fetch(`/utilisateurs/modifier/${id}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('contenuModalModifier').innerHTML = html;
+                        modifierModal.show();
+                    });
+            });
         });
     });
 </script>
+
+
+
+<div class="modal fade" id="modifierUtilisateurModal" tabindex="-1" aria-labelledby="modifierUtilisateurModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifierUtilisateurModalLabel">Modifier un utilisateur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body" id="contenuModalModifier">
+                <!-- Le formulaire sera chargé ici via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

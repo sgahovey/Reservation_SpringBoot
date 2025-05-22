@@ -1,0 +1,23 @@
+<form th:action="@{/utilisateurs}" th:object="${utilisateur}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <label>Nom :</label>
+    <input type="text" th:field="*{nom}" required><br><br>
+
+    <label>Prénom :</label>
+    <input type="text" th:field="*{prenom}" required><br><br>
+
+    <label>Pseudo :</label>
+    <input type="text" th:field="*{pseudo}" required><br><br>
+
+    <label>Email :</label>
+    <input type="email" th:field="*{email}" required><br><br>
+
+    <label>Mot de passe :</label>
+    <input type="password" th:field="*{password}" required><br><br>
+
+    <label>Admin :</label>
+    <input type="checkbox" th:field="*{admin}"><br><br>
+
+    <button type="submit" class="btn btn-primary">Valider</button>
+</form>

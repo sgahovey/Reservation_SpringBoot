@@ -129,12 +129,13 @@ public class UtilisateurController {
         return "redirect:/utilisateurs";
     }
 
-    @GetMapping("/modifier/{id}")
+    @GetMapping("/utilisateurs/modifier/{id}")
     public String formulaireModif(@PathVariable Long id, Model model) {
         Utilisateur utilisateur = utilisateurService.getById(id);
         model.addAttribute("utilisateur", utilisateur);
-        return "utilisateurs/form_utilisateur";
+        return "utilisateurs/modifier"; // ou "utilisateurs/form_utilisateur" si tu préfères
     }
+
 
     @GetMapping("/supprimer/{id}")
     public String supprimer(@PathVariable Long id) {
