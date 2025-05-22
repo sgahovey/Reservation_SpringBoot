@@ -135,11 +135,30 @@ public class CreneauController {
     }
 
     @GetMapping("/mes_demandes")
-    public String afficherMesDemandes(Model model) {
+    public String afficherMesDemandes(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false, defaultValue = "asc") String direction,
+            Model model
+    ) {
         Utilisateur utilisateur = getUtilisateurConnecte();
-        model.addAttribute("mesCreneaux", creneauService.getCreneauxParUtilisateur(utilisateur));
+        List<Creneau> mesCreneaux = creneauService.getCreneauxParUtilisateur(utilisateur);
+
+        if ("date".equals(sort)) {
+            mesCreneaux.sort(Comparator.comparing(Creneau::getDate));
+        } else if ("etat".equals(sort)) {
+            mesCreneaux.sort(Comparator.comparing(Creneau::getEtat));
+        }
+
+        if ("desc".equals(direction)) {
+            Collections.reverse(mesCreneaux);
+        }
+
+        model.addAttribute("mesCreneaux", mesCreneaux);
+        model.addAttribute("sort", sort);
+        model.addAttribute("direction", direction);
         return "creneaux/mes_demandes";
     }
+
 
     @PostMapping("/annuler-demande/{id}")
     public String annulerDemande(@PathVariable Long id) {
