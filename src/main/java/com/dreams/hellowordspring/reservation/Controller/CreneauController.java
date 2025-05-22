@@ -53,6 +53,8 @@ public class CreneauController {
 
     @PostMapping("/ajouter")
     public String ajouterCreneau(@ModelAttribute Creneau creneau) {
+        creneau.setEtat(Creneau.EtatCreneau.VALIDE);
+
         creneauService.save(creneau);
         return "redirect:/creneaux";
     }

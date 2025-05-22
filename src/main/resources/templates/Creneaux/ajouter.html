@@ -4,29 +4,28 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
     </div>
     <div class="modal-body">
-        <form method="post" action="/creneaux/ajouter">
-            <input type="hidden" name="date" th:value="${creneau.date}" />
+        <form method="post" th:action="@{/creneaux/ajouter}" th:object="${creneau}">
+            <input type="hidden" th:field="*{date}" />
 
             <div class="mb-3">
-                <label for="heureDebut" class="form-label">Heure de début :</label>
-                <input type="time" class="form-control" id="heureDebut" name="heureDebut" required>
+                <label class="form-label">Heure de début :</label>
+                <input type="time" class="form-control" th:field="*{heureDebut}" required>
             </div>
 
             <div class="mb-3">
-                <label for="heureFin" class="form-label">Heure de fin :</label>
-                <input type="time" class="form-control" id="heureFin" name="heureFin" required>
+                <label class="form-label">Heure de fin :</label>
+                <input type="time" class="form-control" th:field="*{heureFin}" required>
             </div>
 
             <div class="mb-3">
-                <label for="lieu" class="form-label">Lieu :</label>
-                <input type="text" class="form-control" id="lieu" name="lieu" required>
+                <label class="form-label">Lieu :</label>
+                <input type="text" class="form-control" th:field="*{lieu}" required>
             </div>
 
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Ajouter</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
             </div>
-
         </form>
     </div>
 </div>
