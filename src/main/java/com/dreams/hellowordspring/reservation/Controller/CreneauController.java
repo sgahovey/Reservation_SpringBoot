@@ -78,6 +78,7 @@ public class CreneauController {
         return "creneaux/demande";
     }
 
+
     @PostMapping("/demander")
     public String demanderCreneau(@ModelAttribute Creneau creneau) {
         Utilisateur utilisateur = getUtilisateurConnecte();
@@ -88,6 +89,7 @@ public class CreneauController {
         creneauService.save(creneau);
         return "redirect:/creneaux?demandeSuccess";
     }
+
 
 
     @GetMapping("/demandes")
@@ -137,22 +139,52 @@ public class CreneauController {
 
         for (Creneau c : liste) {
             Map<String, Object> evt = new HashMap<>();
-            evt.put("id", c.getId()); // ✅ ICI pour permettre le clic vers /details/{id}
+            evt.put("id", c.getId());
             evt.put("title", c.getLieu());
-
-            // ✅ Combine date et heure début et fin au format ISO
             evt.put("start", c.getDate().toString() + "T" + c.getHeureDebut().toString());
             evt.put("end", c.getDate().toString() + "T" + c.getHeureFin().toString());
 
-            // Props supplémentaires
+            // Couleur en fonction de l’état
+            switch (c.getEtat()) {
+                case VALIDE -> evt.put("color", "#28a745");       // Vert
+                case EN_ATTENTE -> evt.put("color", "#ffc107");   // Jaune
+                case REFUSE -> evt.put("color", "#dc3545");       // Rouge
+            }
+
             evt.put("extendedProps", Map.of(
                     "lieu", c.getLieu(),
                     "date", c.getDate().toString(),
                     "heureDebut", c.getHeureDebut().toString(),
                     "heureFin", c.getHeureFin().toString()
             ));
+
             resultats.add(evt);
         }
+
+        return resultats;
+    }
+
+    @GetMapping("/api/mes-creneaux-en-attente")
+    @ResponseBody
+    public List<Map<String, Object>> getMesCreneauxEnAttente() {
+        Utilisateur utilisateur = getUtilisateurConnecte();
+        List<Creneau> liste = creneauService.getCreneauxParUtilisateur(utilisateur)
+                .stream()
+                .filter(c -> c.getEtat() == Creneau.EtatCreneau.EN_ATTENTE)
+                .toList();
+
+        List<Map<String, Object>> resultats = new ArrayList<>();
+
+        for (Creneau c : liste) {
+            Map<String, Object> evt = new HashMap<>();
+            evt.put("id", c.getId());
+            evt.put("title", c.getLieu() + " (En attente)");
+            evt.put("start", c.getDate() + "T" + c.getHeureDebut());
+            evt.put("end", c.getDate() + "T" + c.getHeureFin());
+            evt.put("color", "#ffc107"); // jaune
+            resultats.add(evt);
+        }
+
         return resultats;
     }
 

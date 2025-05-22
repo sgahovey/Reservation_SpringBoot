@@ -52,7 +52,15 @@
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       locale: 'fr',
-      events: '/creneaux/api/creneaux-valides',
+      events: function(fetchInfo, successCallback, failureCallback) {
+        Promise.all([
+          fetch('/creneaux/api/creneaux-valides').then(r => r.json()),
+          fetch('/creneaux/api/mes-creneaux-en-attente').then(r => r.json())
+        ]).then(results => {
+          const allEvents = [...results[0], ...results[1]];
+          successCallback(allEvents);
+        }).catch(failureCallback);
+      },
 
       dateClick: function(info) {
         ouvrirModal(info.dateStr, isAdmin);
