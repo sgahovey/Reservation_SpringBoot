@@ -10,11 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,11 +93,29 @@ public class UtilisateurController {
     }
 
     @GetMapping("/utilisateurs")
-    public String listeUtilisateurs(Model model) {
+    public String listeUtilisateurs(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false, defaultValue = "asc") String direction,
+            Model model
+    ) {
         List<Utilisateur> utilisateurs = utilisateurService.getAllUtilisateurs();
+
+        if ("id".equals(sort)) {
+            utilisateurs.sort(Comparator.comparing(Utilisateur::getId));
+        } else if ("admin".equals(sort)) {
+            utilisateurs.sort(Comparator.comparing(Utilisateur::isAdmin));
+        }
+
+        if ("desc".equals(direction)) {
+            Collections.reverse(utilisateurs);
+        }
+
         model.addAttribute("utilisateurs", utilisateurs);
+        model.addAttribute("sort", sort);
+        model.addAttribute("direction", direction);
         return "utilisateurs/index";
     }
+
 
     @GetMapping("/utilisateurs/nouveau")
     public String formulaireAjout(Model model) {
