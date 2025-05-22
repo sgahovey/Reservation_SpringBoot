@@ -200,6 +200,17 @@ public class CreneauController {
         return "creneaux/ajouter :: modalAjout";
     }
 
+    @GetMapping("/historique")
+    public String afficherHistorique(@RequestParam(required = false) String etat,
+                                     @RequestParam(required = false) String date,
+                                     Model model) {
+        List<Creneau> demandes = creneauService.getHistoriqueDemandes(etat, date);
+        model.addAttribute("demandes", demandes);
+        model.addAttribute("etatFiltre", etat);
+        model.addAttribute("dateFiltre", date);
+        return "creneaux/historique";
+    }
+
 
 
 }

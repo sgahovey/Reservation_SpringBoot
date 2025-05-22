@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,6 +116,28 @@ public class CreneauService {
     public List<Creneau> getCreneauxValides() {
         return creneauRepository.findByEtat(Creneau.EtatCreneau.VALIDE);
     }
+
+
+    public List<Creneau> getHistoriqueDemandes(String etat, String dateStr) {
+        try {
+            if (etat != null && dateStr != null) {
+                return creneauRepository.findByEtatAndDate(Creneau.EtatCreneau.valueOf(etat.toUpperCase()), LocalDate.parse(dateStr));
+            } else if (etat != null) {
+                return creneauRepository.findByEtat(Creneau.EtatCreneau.valueOf(etat.toUpperCase()));
+            } else if (dateStr != null) {
+                return creneauRepository.findByDate(LocalDate.parse(dateStr));
+            } else {
+                List<Creneau> result = new ArrayList<>();
+                creneauRepository.findAll().forEach(result::add);
+                return result;
+            }
+        } catch (IllegalArgumentException e) {
+            return new ArrayList<>(); // ou lever une exception personnalisée/logguer
+        }
+    }
+
+
+
 
 
 }

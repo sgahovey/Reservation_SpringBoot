@@ -19,5 +19,10 @@ public interface CreneauRepository extends CrudRepository<Creneau, Long> {
 
     List<Creneau> findByReservePar(Utilisateur utilisateur);
 
+    List<Creneau> findByReserveParIsNotNull();
+
+    List<Creneau> findByEtatAndDate(Creneau.EtatCreneau etat, LocalDate date);
+
+
 
 }
