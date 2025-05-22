@@ -29,12 +29,9 @@ public class Creneau {
 
     public enum EtatCreneau {
         EN_ATTENTE,
-        VALIDE
+        VALIDE,
+        REFUSE
     }
-
-
-
-
 
     public Creneau() {}
 

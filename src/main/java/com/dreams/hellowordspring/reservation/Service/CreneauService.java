@@ -86,8 +86,14 @@ public class CreneauService {
     }
 
     public void refuserCreneau(Long id) {
-        creneauRepository.deleteById(id);
+        Optional<Creneau> opt = creneauRepository.findById(id);
+        if (opt.isPresent()) {
+            Creneau creneau = opt.get();
+            creneau.setEtat(Creneau.EtatCreneau.REFUSE); // 👈 ici
+            creneauRepository.save(creneau);
+        }
     }
+
 
     public List<Creneau> getCreneauxParUtilisateur(Utilisateur utilisateur) {
         return creneauRepository.findByReservePar(utilisateur);
