@@ -120,11 +120,11 @@ public class CreneauService {
 
     public List<Creneau> getHistoriqueDemandes(String etat, String dateStr) {
         try {
-            if (etat != null && dateStr != null) {
+            if (etat != null && !etat.isEmpty() && dateStr != null && !dateStr.isEmpty()) {
                 return creneauRepository.findByEtatAndDate(Creneau.EtatCreneau.valueOf(etat.toUpperCase()), LocalDate.parse(dateStr));
-            } else if (etat != null) {
+            } else if (etat != null && !etat.isEmpty()) {
                 return creneauRepository.findByEtat(Creneau.EtatCreneau.valueOf(etat.toUpperCase()));
-            } else if (dateStr != null) {
+            } else if (dateStr != null && !dateStr.isEmpty()) {
                 return creneauRepository.findByDate(LocalDate.parse(dateStr));
             } else {
                 List<Creneau> result = new ArrayList<>();
@@ -132,7 +132,7 @@ public class CreneauService {
                 return result;
             }
         } catch (IllegalArgumentException e) {
-            return new ArrayList<>(); // ou lever une exception personnalisée/logguer
+            return new ArrayList<>();
         }
     }
 
