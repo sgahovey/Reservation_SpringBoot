@@ -116,27 +116,27 @@ public class UtilisateurController {
         return "utilisateurs/index";
     }
 
-
-    @GetMapping("/utilisateurs/nouveau")
-    public String formulaireAjout(Model model) {
+    @GetMapping("/utilisateurs/ajouter")
+    public String formAjouter(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
-        return "utilisateurs/form_utilisateur";
+        return "utilisateurs/ajouter"; // <- important
     }
 
+
     @PostMapping("/utilisateurs")
-    public String enregistrer(@ModelAttribute Utilisateur utilisateur) {
+    public String ajouterUtilisateur(@ModelAttribute Utilisateur utilisateur) {
         utilisateurService.save(utilisateur);
         return "redirect:/utilisateurs";
     }
 
-    @GetMapping("/utilisateurs/modifier/{id}")
+    @GetMapping("/modifier/{id}")
     public String formulaireModif(@PathVariable Long id, Model model) {
         Utilisateur utilisateur = utilisateurService.getById(id);
         model.addAttribute("utilisateur", utilisateur);
         return "utilisateurs/form_utilisateur";
     }
 
-    @GetMapping("/utilisateurs/supprimer/{id}")
+    @GetMapping("/supprimer/{id}")
     public String supprimer(@PathVariable Long id) {
         utilisateurService.delete(id);
         return "redirect:/utilisateurs";

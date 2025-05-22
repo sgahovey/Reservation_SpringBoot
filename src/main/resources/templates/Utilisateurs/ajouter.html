@@ -6,6 +6,7 @@
 <h2>Liste des utilisateurs</h2>
 <h2 th:text="${utilisateur.id == null ? 'Créer un utilisateur' : 'Modifier l’utilisateur'}"></h2>
 
+
 <form th:action="@{/utilisateurs}" th:object="${utilisateur}" method="post">
     <input type="hidden" th:field="*{id}"/>
 
