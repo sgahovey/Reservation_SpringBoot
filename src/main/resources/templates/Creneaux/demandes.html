@@ -18,11 +18,13 @@
         <th>
             <a th:href="@{/creneaux/demandes(sort='utilisateur', direction=${sort == 'utilisateur' and direction == 'asc' ? 'desc' : 'asc'})}">
                 Utilisateur
+                <span th:if="${sort == 'utilisateur'}" th:text="${direction == 'asc' ? '▲' : '▼'}"></span>
             </a>
         </th>
         <th>
             <a th:href="@{/creneaux/demandes(sort='date', direction=${sort == 'date' and direction == 'asc' ? 'desc' : 'asc'})}">
                 Date
+                <span th:if="${sort == 'date'}" th:text="${direction == 'asc' ? '▲' : '▼'}"></span>
             </a>
         </th>
         <th>Heure Début</th>
@@ -31,6 +33,7 @@
         <th>Actions</th>
     </tr>
     </thead>
+
 
     <tbody>
     <tr th:each="creneau : ${demandes}">
