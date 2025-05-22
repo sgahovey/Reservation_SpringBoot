@@ -93,10 +93,34 @@ public class CreneauController {
 
 
     @GetMapping("/demandes")
-    public String afficherDemandes(Model model) {
-        model.addAttribute("demandes", creneauService.getCreneauxEnAttente());
+    public String afficherDemandes(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false, defaultValue = "asc") String direction,
+            Model model
+    ) {
+        List<Creneau> demandes = creneauService.getCreneauxEnAttente();
+
+        // 🔃 Tri dynamique
+        Comparator<Creneau> comparator = null;
+        if ("utilisateur".equals(sort)) {
+            comparator = Comparator.comparing(c -> c.getReservePar() != null ? c.getReservePar().getNom() : "");
+        } else if ("date".equals(sort)) {
+            comparator = Comparator.comparing(Creneau::getDate);
+        }
+
+        if (comparator != null) {
+            demandes.sort(comparator);
+            if ("desc".equals(direction)) {
+                Collections.reverse(demandes);
+            }
+        }
+
+        model.addAttribute("demandes", demandes);
+        model.addAttribute("sort", sort);
+        model.addAttribute("direction", direction);
         return "creneaux/demandes";
     }
+
 
     @PostMapping("/valider/{id}")
     public String validerCreneau(@PathVariable Long id) {

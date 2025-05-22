@@ -15,14 +15,23 @@
 <table border="1">
     <thead>
     <tr>
-        <th>Utilisateur</th>
-        <th>Date</th>
+        <th>
+            <a th:href="@{/creneaux/demandes(sort='utilisateur', direction=${sort == 'utilisateur' and direction == 'asc' ? 'desc' : 'asc'})}">
+                Utilisateur
+            </a>
+        </th>
+        <th>
+            <a th:href="@{/creneaux/demandes(sort='date', direction=${sort == 'date' and direction == 'asc' ? 'desc' : 'asc'})}">
+                Date
+            </a>
+        </th>
         <th>Heure Début</th>
         <th>Heure Fin</th>
         <th>Lieu</th>
         <th>Actions</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="creneau : ${demandes}">
         <td>
