@@ -136,6 +136,15 @@ public class CreneauService {
         }
     }
 
+    public boolean estDisponible(Creneau creneau) {
+        List<Creneau> chevauchements = creneauRepository.findChevauchements(
+                creneau.getLieu(),
+                creneau.getDate(),
+                creneau.getHeureDebut(),
+                creneau.getHeureFin()
+        );
+        return chevauchements.isEmpty();
+    }
 
 
 

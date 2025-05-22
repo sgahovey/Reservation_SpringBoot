@@ -4,6 +4,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
     </div>
     <div class="modal-body">
+        <div th:if="${erreur}" class="alert alert-danger" th:text="${erreur}"></div>
+
         <form method="post" th:action="@{/creneaux/ajouter}" th:object="${creneau}">
             <input type="hidden" th:field="*{date}" />
 

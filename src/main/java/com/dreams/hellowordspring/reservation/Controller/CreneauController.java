@@ -52,12 +52,17 @@ public class CreneauController {
     }
 
     @PostMapping("/ajouter")
-    public String ajouterCreneau(@ModelAttribute Creneau creneau) {
-        creneau.setEtat(Creneau.EtatCreneau.VALIDE);
+    public String ajouterCreneau(@ModelAttribute Creneau creneau, Model model) {
+        if (!creneauService.estDisponible(creneau)) {
+            model.addAttribute("erreur", "Créneau déjà occupé à cet horaire et lieu !");
+            return "creneaux/ajouter"; // retourne le formulaire avec un message
+        }
 
+        creneau.setEtat(Creneau.EtatCreneau.VALIDE);
         creneauService.save(creneau);
         return "redirect:/creneaux";
     }
+
 
     private Utilisateur getUtilisateurConnecte() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
