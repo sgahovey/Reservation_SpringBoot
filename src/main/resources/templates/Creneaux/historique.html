@@ -31,14 +31,23 @@
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>Date</th>
+            <th>
+                <a th:href="@{/creneaux/historique(sort='date', direction=${direction == 'asc' ? 'desc' : 'asc'}, etat=${etatFiltre}, date=${dateFiltre})}">
+                    Date <span th:text="${sort == 'date' ? (direction == 'asc' ? '▲' : '▼') : ''}"></span>
+                </a>
+            </th>
             <th>Heure Début</th>
             <th>Heure Fin</th>
             <th>Lieu</th>
             <th>Utilisateur</th>
-            <th>État</th>
+            <th>
+                <a th:href="@{/creneaux/historique(sort='etat', direction=${direction == 'asc' ? 'desc' : 'asc'}, etat=${etatFiltre}, date=${dateFiltre})}">
+                    État <span th:text="${sort == 'etat' ? (direction == 'asc' ? '▲' : '▼') : ''}"></span>
+                </a>
+            </th>
         </tr>
         </thead>
+
         <tbody>
         <tr th:each="creneau : ${demandes}">
             <td th:text="${creneau.date}"></td>

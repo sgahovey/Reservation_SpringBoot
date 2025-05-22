@@ -201,15 +201,35 @@ public class CreneauController {
     }
 
     @GetMapping("/historique")
-    public String afficherHistorique(@RequestParam(required = false) String etat,
-                                     @RequestParam(required = false) String date,
-                                     Model model) {
+    public String afficherHistorique(
+            @RequestParam(required = false) String etat,
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false, defaultValue = "asc") String direction,
+            Model model
+    ) {
         List<Creneau> demandes = creneauService.getHistoriqueDemandes(etat, date);
+
+        // Appliquer le tri
+        if ("date".equals(sort)) {
+            demandes.sort(Comparator.comparing(Creneau::getDate));
+        } else if ("etat".equals(sort)) {
+            demandes.sort(Comparator.comparing(Creneau::getEtat));
+        }
+
+        if ("desc".equals(direction)) {
+            Collections.reverse(demandes);
+        }
+
         model.addAttribute("demandes", demandes);
         model.addAttribute("etatFiltre", etat);
         model.addAttribute("dateFiltre", date);
+        model.addAttribute("sort", sort);
+        model.addAttribute("direction", direction);
+
         return "creneaux/historique";
     }
+
 
 
 
