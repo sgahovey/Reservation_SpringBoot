@@ -36,10 +36,10 @@
         <td th:text="${creneau.lieu}"></td>
         <td>
             <form th:action="@{'/creneaux/valider/' + ${creneau.id}}" method="post" style="display:inline;">
-                <button type="submit">✅ Valider</button>
+                <button type="submit">✅</button>
             </form>
             <form th:action="@{'/creneaux/refuser/' + ${creneau.id}}" method="post" style="display:inline;">
-                <button type="submit">❌ Refuser</button>
+                <button type="submit">❌</button>
             </form>
         </td>
     </tr>
