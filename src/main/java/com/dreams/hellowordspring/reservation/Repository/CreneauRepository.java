@@ -42,4 +42,6 @@ public interface CreneauRepository extends CrudRepository<Creneau, Long> {
     );
 
 
+    long count();
+    long countByEtat(Creneau.EtatCreneau etat); // ✅ Correct type
 }

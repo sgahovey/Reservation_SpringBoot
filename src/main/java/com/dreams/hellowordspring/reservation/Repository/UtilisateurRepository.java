@@ -16,5 +16,6 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 
         List<Utilisateur> findAll(); // méthode pour obtenir une liste utilisable avec Thymeleaf
 
+    long countByAdminTrue();
 
 }
