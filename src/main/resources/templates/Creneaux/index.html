@@ -54,8 +54,8 @@
       locale: 'fr',
       events: function(fetchInfo, successCallback, failureCallback) {
         Promise.all([
-          fetch('/creneaux/api/creneaux-valides').then(r => r.json()),
-          fetch('/creneaux/api/mes-creneaux-en-attente').then(r => r.json())
+          fetch('/api/creneaux-valides').then(r => r.json()),
+          fetch('/api/mes-creneaux-en-attente').then(r => r.json())
         ]).then(results => {
           const allEvents = [...results[0], ...results[1]];
           successCallback(allEvents);

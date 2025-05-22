@@ -8,7 +8,7 @@
     <h2 class="text-center">Historique des demandes de créneau</h2>
 
     <!-- Filtres -->
-    <form method="get" th:action="@{/creneaux/historique}" class="row g-3 my-4">
+    <form method="get" th:action="@{/admin/historique}" class="row g-3 my-4">
         <div class="col-md-4">
             <label for="etat" class="form-label">Filtrer par état :</label>
             <select name="etat" id="etat" class="form-select">
@@ -32,7 +32,7 @@
         <thead>
         <tr>
             <th>
-                <a th:href="@{/creneaux/historique(sort='date', direction=${direction == 'asc' ? 'desc' : 'asc'}, etat=${etatFiltre}, date=${dateFiltre})}">
+                <a th:href="@{/admin/historique(sort='date', direction=${direction == 'asc' ? 'desc' : 'asc'}, etat=${etatFiltre}, date=${dateFiltre})}">
                     Date <span th:text="${sort == 'date' ? (direction == 'asc' ? '▲' : '▼') : ''}"></span>
                 </a>
             </th>
@@ -41,7 +41,7 @@
             <th>Lieu</th>
             <th>Utilisateur</th>
             <th>
-                <a th:href="@{/creneaux/historique(sort='etat', direction=${direction == 'asc' ? 'desc' : 'asc'}, etat=${etatFiltre}, date=${dateFiltre})}">
+                <a th:href="@{/admin/historique(sort='etat', direction=${direction == 'asc' ? 'desc' : 'asc'}, etat=${etatFiltre}, date=${dateFiltre})}">
                     État <span th:text="${sort == 'etat' ? (direction == 'asc' ? '▲' : '▼') : ''}"></span>
                 </a>
             </th>

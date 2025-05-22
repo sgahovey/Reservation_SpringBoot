@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/creneaux/ajouter", "/creneaux/formulaire-ajout").hasRole("ADMIN")
                         .requestMatchers("/creneaux/formulaire-demande").authenticated()
                         .requestMatchers("/creneaux/mes-demandes").authenticated()
+
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

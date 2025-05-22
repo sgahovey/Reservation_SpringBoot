@@ -12,7 +12,7 @@
 
                 <!-- Visible uniquement pour les admins -->
                 <li class="nav-item" th:if="${utilisateur != null and utilisateur.admin}">
-                    <a class="nav-link text-danger" th:href="@{/creneaux/demandes}">
+                    <a class="nav-link text-danger" th:href="@{/admin/demandes}">
                         <strong>Gérer les demandes</strong>
                     </a>
                 </li>

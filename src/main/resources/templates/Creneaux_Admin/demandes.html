@@ -8,7 +8,7 @@
 
 
 <div class="d-flex justify-content-end mb-3">
-    <a href="/creneaux/historique" class="btn btn-outline-primary">📜 Voir l'historique des demandes</a>
+    <a href="/admin/historique" class="btn btn-outline-primary">📜 Voir l'historique des demandes</a>
 </div>
 
 
@@ -16,13 +16,13 @@
     <thead>
     <tr>
         <th>
-            <a th:href="@{/creneaux/demandes(sort='utilisateur', direction=${sort == 'utilisateur' and direction == 'asc' ? 'desc' : 'asc'})}">
+            <a th:href="@{/admin/demandes(sort='utilisateur', direction=${sort == 'utilisateur' and direction == 'asc' ? 'desc' : 'asc'})}">
                 Utilisateur
                 <span th:if="${sort == 'utilisateur'}" th:text="${direction == 'asc' ? '▲' : '▼'}"></span>
             </a>
         </th>
         <th>
-            <a th:href="@{/creneaux/demandes(sort='date', direction=${sort == 'date' and direction == 'asc' ? 'desc' : 'asc'})}">
+            <a th:href="@{/admin/demandes(sort='date', direction=${sort == 'date' and direction == 'asc' ? 'desc' : 'asc'})}">
                 Date
                 <span th:if="${sort == 'date'}" th:text="${direction == 'asc' ? '▲' : '▼'}"></span>
             </a>
@@ -47,10 +47,10 @@
         <td th:text="${creneau.heureFin}"></td>
         <td th:text="${creneau.lieu}"></td>
         <td>
-            <form th:action="@{'/creneaux/valider/' + ${creneau.id}}" method="post" style="display:inline;">
+            <form th:action="@{'/admin/valider/' + ${creneau.id}}" method="post" style="display:inline;">
                 <button type="submit">✅</button>
             </form>
-            <form th:action="@{'/creneaux/refuser/' + ${creneau.id}}" method="post" style="display:inline;">
+            <form th:action="@{'/admin/refuser/' + ${creneau.id}}" method="post" style="display:inline;">
                 <button type="submit">❌</button>
             </form>
         </td>
