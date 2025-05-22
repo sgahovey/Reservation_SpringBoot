@@ -7,14 +7,23 @@
 <h2>Demandes de créneaux en attente</h2>
 
 <table border="1">
+    <thead>
     <tr>
+        <th>Utilisateur</th>
         <th>Date</th>
         <th>Heure Début</th>
         <th>Heure Fin</th>
         <th>Lieu</th>
         <th>Actions</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="creneau : ${demandes}">
+        <td>
+            <span th:if="${creneau.reservePar != null}"
+                  th:text="${creneau.reservePar.prenom + ' ' + creneau.reservePar.nom + ' (' + creneau.reservePar.pseudo + ')'}"></span>
+            <span th:if="${creneau.reservePar == null}" class="text-muted fst-italic">-</span>
+        </td>
         <td th:text="${creneau.date}"></td>
         <td th:text="${creneau.heureDebut}"></td>
         <td th:text="${creneau.heureFin}"></td>
@@ -28,6 +37,7 @@
             </form>
         </td>
     </tr>
+    </tbody>
 </table>
 
 </body>
