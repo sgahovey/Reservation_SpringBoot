@@ -5,9 +5,9 @@
 <div th:replace="fragments/header :: header"></div>
 <h2>Liste des utilisateurs</h2>
 
-<a th:href="@{/utilisateurs/ajouter}" class="btn btn-success mb-3">
+<button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#ajoutUtilisateurModal">
     <i class="bi bi-person-plus"></i> Ajouter un utilisateur
-</a>
+</button>
 
 <table border="1">
     <thead>
@@ -44,6 +44,34 @@
     </tr>
     </tbody>
 </table>
+
+<div class="modal fade" id="ajoutUtilisateurModal" tabindex="-1" aria-labelledby="ajoutUtilisateurModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ajoutUtilisateurModalLabel">Ajouter un utilisateur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body" id="contenuModalAjout">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ajoutModal = document.getElementById('ajoutUtilisateurModal');
+        ajoutModal.addEventListener('show.bs.modal', function () {
+            fetch('/utilisateurs/ajouter')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('contenuModalAjout').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error("Erreur lors du chargement du formulaire :", error);
+                });
+        });
+    });
+</script>
 
 </body>
 </html>
