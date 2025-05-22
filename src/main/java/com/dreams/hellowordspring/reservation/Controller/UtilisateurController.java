@@ -143,4 +143,32 @@ public class UtilisateurController {
         return "redirect:/utilisateurs";
     }
 
+    @GetMapping("/utilisateurs/reglages")
+    public String afficherReglages(Model model, HttpSession session) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        model.addAttribute("utilisateur", utilisateur);
+        return "utilisateurs/reglages";
+    }
+
+    @PostMapping("/utilisateurs/reglages")
+    public String modifierInfos(@ModelAttribute Utilisateur utilisateurModifie, HttpSession session) {
+        Utilisateur original = (Utilisateur) session.getAttribute("utilisateur");
+        if (original != null) {
+            original.setNom(utilisateurModifie.getNom());
+            original.setPrenom(utilisateurModifie.getPrenom());
+            original.setPseudo(utilisateurModifie.getPseudo());
+            original.setEmail(utilisateurModifie.getEmail());
+
+            if (utilisateurModifie.getPassword() != null && !utilisateurModifie.getPassword().isEmpty()) {
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                original.setPassword(encoder.encode(utilisateurModifie.getPassword()));
+            }
+
+            utilisateurService.save(original);
+            session.setAttribute("utilisateur", original);
+        }
+
+        return "redirect:/creneaux";
+    }
+
 }

@@ -30,6 +30,11 @@
                         Connecté : <strong th:text="${utilisateur.pseudo}"></strong>
                         <span th:if="${utilisateur.admin}" class="badge bg-warning text-dark ms-2">ADMIN</span>
                     </span>
+                    <!-- Bouton Réglages (modale) -->
+                    <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalReglages">
+                        ⚙️ Réglages
+                    </button>
+
                     <form th:action="@{/logout}" method="get" class="d-inline">
                         <button type="submit" class="btn btn-outline-danger btn-sm">Déconnexion</button>
                     </form>
@@ -37,4 +42,32 @@
             </ul>
         </div>
     </nav>
+
+    <div class="modal fade" id="modalReglages" tabindex="-1" aria-labelledby="modalReglagesLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalReglagesLabel">Modifier mes informations</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body" id="contenuModalReglages">
+                    <!-- Contenu chargé dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reglagesModal = document.getElementById('modalReglages');
+            reglagesModal.addEventListener('show.bs.modal', function () {
+                fetch('/utilisateurs/reglages')
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('contenuModalReglages').innerHTML = html;
+                    });
+            });
+        });
+    </script>
+
+
 </div>
