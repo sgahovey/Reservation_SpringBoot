@@ -11,16 +11,18 @@
 
     <div th:if="${utilisateur != null and utilisateur.admin}">
         <p><strong>👤 Réservé par :</strong>
-            <span th:text="${creneau.reservePar.prenom + ' ' + creneau.reservePar.nom + ' (' + creneau.reservePar.pseudo + ')'}"></span>
+            <span th:if="${creneau.reservePar != null}"
+                  th:text="${creneau.reservePar.prenom + ' ' + creneau.reservePar.nom + ' (' + creneau.reservePar.pseudo + ')'}"></span>
+            <span th:if="${creneau.reservePar == null}" class="text-muted fst-italic">Administrateur</span>
         </p>
     </div>
 
     <p><strong>📝 Statut :</strong>
         <span th:switch="${creneau.etat}">
-      <span th:case="'VALIDE'" class="text-success fw-bold">Validé</span>
-      <span th:case="'EN_ATTENTE'" class="text-warning fw-bold">En attente</span>
-      <span th:case="'REFUSE'" class="text-danger fw-bold">Refusé</span>
-    </span>
+            <span th:case="'VALIDE'" class="text-success fw-bold">Validé</span>
+            <span th:case="'EN_ATTENTE'" class="text-warning fw-bold">En attente</span>
+            <span th:case="'REFUSE'" class="text-danger fw-bold">Refusé</span>
+        </span>
     </p>
 </div>
 <div class="modal-footer">
@@ -30,5 +32,4 @@
             <button type="submit" class="btn btn-danger">🗑 Supprimer</button>
         </form>
     </div>
-
 </div>
