@@ -13,13 +13,13 @@
                 <!-- Visible uniquement pour les admins -->
                 <li class="nav-item" th:if="${utilisateur != null and utilisateur.admin}">
                     <a class="nav-link text-danger" th:href="@{/admin/demandes}">
-                        <strong>Gérer les demandes</strong>
+                        <strong>📥 Gérer les demandes</strong>
                     </a>
                 </li>
 
                 <li class="nav-item" th:if="${utilisateur != null and utilisateur.admin}">
                     <a class="nav-link text-danger" th:href="@{/utilisateurs}">
-                        <strong>Gérer les utilisateurs</strong>
+                        <strong>👥 Gérer les utilisateurs</strong>
                     </a>
                 </li>
 
@@ -34,7 +34,7 @@
                 <li class="nav-item" th:if="${utilisateur != null}">
                     <span class="navbar-text me-3">
                         Connecté : <strong th:text="${utilisateur.pseudo}"></strong>
-                        <span th:if="${utilisateur.admin}" class="badge bg-warning text-dark ms-2">ADMIN</span>
+                        <span th:if="${utilisateur.admin}" class="badge bg-warning text-dark ms-2">🧑‍💻 ADMIN</span>
                     </span>
                     <!-- Bouton Réglages (modale) -->
                     <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalReglages">
