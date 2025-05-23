@@ -17,13 +17,7 @@
         </p>
     </div>
 
-    <p><strong>📝 Statut :</strong>
-        <span th:switch="${creneau.etat}">
-            <span th:case="'VALIDE'" class="text-success fw-bold">Validé</span>
-            <span th:case="'EN_ATTENTE'" class="text-warning fw-bold">En attente</span>
-            <span th:case="'REFUSE'" class="text-danger fw-bold">Refusé</span>
-        </span>
-    </p>
+
 </div>
 <div class="modal-footer">
     <div th:if="${utilisateur != null and utilisateur.admin}">
