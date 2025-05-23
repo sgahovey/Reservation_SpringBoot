@@ -1,0 +1,52 @@
+/* --- HEADER NAVBAR --- */
+.navbar {
+    border-radius: 16px;
+    background: #ffffffdd;
+    backdrop-filter: blur(6px);
+    transition: background 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #4bb0bf !important;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #4bb0bf !important;
+}
+
+.navbar-text {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Badge admin */
+.badge.bg-warning {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+/* Boutons déconnexion/réglages */
+.btn-outline-secondary,
+.btn-outline-danger {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background: #4bb0bf;
+    color: white;
+    border-color: #4bb0bf;
+}
+
+.btn-outline-danger:hover {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}

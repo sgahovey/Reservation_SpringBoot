@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Créer un compte</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+<div class="container">
+    <div class="login-box">
+        <h2>Créer un compte</h2>
 
-<h2>Créer un compte</h2>
-<p th:if="${erreur}" th:text="${erreur}" style="color:red;"></p>
+        <p th:if="${erreur}" th:text="${erreur}" class="alert error"></p>
 
+        <form th:action="@{/register}" method="post" th:object="${utilisateur}" class="form">
 
-<form th:action="@{/register}" method="post" th:object="${utilisateur}">
-    <label>Nom :</label>
-    <input type="text" th:field="*{nom}" required><br><br>
+            <label for="nom">Nom</label>
+            <input type="text" th:field="*{nom}" id="nom" required>
 
-    <label>Prénom :</label>
-    <input type="text" th:field="*{prenom}" required><br><br>
+            <label for="prenom">Prénom</label>
+            <input type="text" th:field="*{prenom}" id="prenom" required>
 
-    <label>Pseudo :</label>
-    <input type="text" th:field="*{pseudo}" required><br><br>
+            <label for="pseudo">Pseudo</label>
+            <input type="text" th:field="*{pseudo}" id="pseudo" required>
 
-    <label>Email :</label>
-    <input type="email" th:field="*{email}" required><br><br>
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" id="email" required>
 
-    <label>Mot de passe :</label>
-    <input type="password" th:field="*{password}" required><br><br>
+            <label for="password">Mot de passe</label>
+            <input type="password" th:field="*{password}" id="password" required>
 
-    <div th:if="${utilisateurSession != null and utilisateurSession.admin}">
-        <label><input type="checkbox" th:field="*{admin}"> Compte administrateur</label><br><br>
+            <div th:if="${utilisateurSession != null and utilisateurSession.admin}">
+                <label class="checkbox-label">
+                    <input type="checkbox" th:field="*{admin}"> Compte administrateur
+                </label>
+            </div>
+
+            <button type="submit" class="btn">S'inscrire</button>
+        </form>
     </div>
-
-    <button type="submit">S'inscrire</button>
-</form>
-
+</div>
 </body>
 </html>
