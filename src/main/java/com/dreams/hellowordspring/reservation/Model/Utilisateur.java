@@ -103,15 +103,17 @@ public class Utilisateur implements UserDetails {
         this.creneauxReserves = creneauxReserves;
     }
 
-    // 🛡️ Implémentation de UserDetails :
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.admin) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN")); // ← ici
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
         }
-        return List.of();
     }
+
+
 
 
     @Override

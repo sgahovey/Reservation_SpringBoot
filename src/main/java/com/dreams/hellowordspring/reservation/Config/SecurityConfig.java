@@ -36,10 +36,24 @@ public class SecurityConfig {
         http
                 .csrf().disable() // désactiver CSRF pour les tests (à activer en prod)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register", "/register/**", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/creneaux/ajouter", "/creneaux/formulaire-ajout").hasRole("ADMIN")
-                        .requestMatchers("/creneaux/formulaire-demande").authenticated()
-                        .requestMatchers("/creneaux/mes-demandes").authenticated()
+                        .requestMatchers(
+                                "/login",
+                                "/register",
+                                "/css/**",
+                                "/js/**"
+                        ).permitAll() // ✅ accessible sans connexion
+
+                        .requestMatchers(
+                                "/creneaux/**",
+                                "/utilisateurs/reglages"
+                        ).hasAnyRole("USER", "ADMIN") // accessibles à tous les connectés
+
+                        .requestMatchers(
+                                "/admin/**",
+                                "/Creneaux_Admin/**",
+                                "/Statistiques/**",
+                                "/utilisateurs/**" // sauf /utilisateurs/reglages
+                        ).hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
