@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <title>Connexion</title>
-  <link rel="stylesheet" href="/css/register.css">
+  <link rel="stylesheet" href="/css/register-login.css">
 </head>
 <body>
-<div class="container">
-  <div class="login-box">
+
+<div class="auth-page">
+  <div class="auth-box">
     <h2>Connexion</h2>
 
     <p th:if="${param.registerSuccess}" class="alert success">Inscription réussie ! Vous pouvez maintenant vous connecter.</p>
@@ -28,5 +30,6 @@
     </p>
   </div>
 </div>
+
 </body>
 </html>

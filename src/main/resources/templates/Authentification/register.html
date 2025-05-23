@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Créer un compte</title>
-    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="/css/register-login.css">
 </head>
 <body>
-<div class="container">
-    <div class="login-box">
+
+<div class="auth-page">
+    <div class="auth-box">
         <h2>Créer un compte</h2>
 
         <p th:if="${erreur}" th:text="${erreur}" class="alert error"></p>
@@ -37,7 +38,10 @@
 
             <button type="submit" class="btn">S'inscrire</button>
         </form>
+
+        <p class="login-link">Déjà inscrit ? <a th:href="@{/login}">Se connecter</a></p>
     </div>
 </div>
+
 </body>
 </html>

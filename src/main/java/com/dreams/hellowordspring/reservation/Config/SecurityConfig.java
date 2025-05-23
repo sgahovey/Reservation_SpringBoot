@@ -40,6 +40,7 @@ public class SecurityConfig {
                                 "/login",
                                 "/register",
                                 "/css/**",
+                                "/images/**",
                                 "/js/**"
                         ).permitAll() // ✅ accessible sans connexion
 
