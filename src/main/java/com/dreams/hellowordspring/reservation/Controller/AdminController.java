@@ -18,6 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 
+// Injection des dépendances
 public class AdminController {
     @Autowired
 private UtilisateurRepository utilisateurRepository;
@@ -28,6 +29,9 @@ private UtilisateurRepository utilisateurRepository;
     @Autowired
     private CreneauService creneauService;
 
+    /**
+     * Affiche la liste des demandes de créneaux en attente avec option de tri
+     */
     @GetMapping("/demandes")
     public String afficherDemandes(
             @RequestParam(required = false) String sort,
@@ -36,21 +40,21 @@ private UtilisateurRepository utilisateurRepository;
     ) {
         List<Creneau> demandes = creneauService.getCreneauxEnAttente();
 
-        // 🔃 Tri dynamique
+        // Tri dynamique selon la colonne demandée
         Comparator<Creneau> comparator = null;
         if ("utilisateur".equals(sort)) {
             comparator = Comparator.comparing(c -> c.getReservePar() != null ? c.getReservePar().getNom() : "");
         } else if ("date".equals(sort)) {
             comparator = Comparator.comparing(Creneau::getDate);
         }
-
+        // Application du tri
         if (comparator != null) {
             demandes.sort(comparator);
             if ("desc".equals(direction)) {
                 Collections.reverse(demandes);
             }
         }
-
+        // Ajout des données au modèle pour la vue
         model.addAttribute("demandes", demandes);
         model.addAttribute("sort", sort);
         model.addAttribute("direction", direction);
@@ -63,6 +67,9 @@ private UtilisateurRepository utilisateurRepository;
         return "admin/ajouter";
     }
 
+    /**
+     * Affiche un formulaire d’ajout pré-rempli avec une date (dans une modale)
+     */
     @GetMapping("/formulaire-ajout")
     public String afficherFormulaireAjout(@RequestParam String date, Model model) {
         Creneau creneau = new Creneau();
@@ -71,6 +78,9 @@ private UtilisateurRepository utilisateurRepository;
         return "creneaux_Admin/ajouter :: modalAjout";
     }
 
+    /**
+     * Enregistre un créneau validé depuis le formulaire
+     */
     @PostMapping("/ajouter")
     public String ajouterCreneau(@ModelAttribute Creneau creneau) {
         creneau.setEtat(EtatCreneau.VALIDE);
@@ -78,25 +88,36 @@ private UtilisateurRepository utilisateurRepository;
         return "redirect:/creneaux";
     }
 
+    /**
+     * Supprime un créneau existant par son ID
+     */
     @PostMapping("/delete/{id}")
     public String supprimerCreneau(@PathVariable Long id) {
         creneauService.deleteById(id); // ou une méthode sécurisée
         return "redirect:/creneaux?deleteSuccess";
     }
 
-
+    /**
+     * Valide une demande de créneau (modifie son état)
+     */
     @PostMapping("/valider/{id}")
     public String validerCreneau(@PathVariable Long id) {
         creneauService.validerCreneau(id);
         return "redirect:/admin/demandes";
     }
 
+    /**
+     * Refuse une demande de créneau
+     */
     @PostMapping("/refuser/{id}")
     public String refuserCreneau(@PathVariable Long id) {
         creneauService.refuserCreneau(id);
         return "redirect:/admin/demandes";
     }
 
+    /**
+     * Affiche l’historique filtrable des demandes de créneaux (par date ou état)
+     */
     @GetMapping("/historique")
     public String afficherHistorique(
             @RequestParam(required = false) String etat,
@@ -118,6 +139,7 @@ private UtilisateurRepository utilisateurRepository;
             Collections.reverse(demandes);
         }
 
+        // Envoi des données à la vue
         model.addAttribute("demandes", demandes);
         model.addAttribute("etatFiltre", etat);
         model.addAttribute("dateFiltre", date);
@@ -127,6 +149,9 @@ private UtilisateurRepository utilisateurRepository;
         return "creneaux_Admin/historique";
     }
 
+    /**
+     * Affiche les statistiques globales des utilisateurs et des créneaux
+     */
     @GetMapping("/stats")
     public String afficherStatistiques(Model model) {
         // Utilisateurs
@@ -135,10 +160,10 @@ private UtilisateurRepository utilisateurRepository;
         long simples = total - admins;
 
         // Créneaux
-        long totalDemandes = creneauRepository.count(); // ✅ corrigé
-        long demandesValidees = creneauRepository.countByEtat(EtatCreneau.VALIDE); // ✅ corrigé
-        long demandesEnAttente = creneauRepository.countByEtat(EtatCreneau.EN_ATTENTE); // ✅ corrigé
-        long demandesRefusees = creneauRepository.countByEtat(EtatCreneau.REFUSE); // ✅ corrigé
+        long totalDemandes = creneauRepository.count();
+        long demandesValidees = creneauRepository.countByEtat(EtatCreneau.VALIDE);
+        long demandesEnAttente = creneauRepository.countByEtat(EtatCreneau.EN_ATTENTE);
+        long demandesRefusees = creneauRepository.countByEtat(EtatCreneau.REFUSE);
 
         model.addAttribute("totalUtilisateurs", total);
         model.addAttribute("totalAdmins", admins);
@@ -149,8 +174,6 @@ private UtilisateurRepository utilisateurRepository;
         model.addAttribute("demandesEnAttente", demandesEnAttente);
         model.addAttribute("demandesRefusees", demandesRefusees);
 
-
         return "Statistiques/index";
     }
-
 }

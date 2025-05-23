@@ -21,6 +21,9 @@ public class CreneauController {
     @Autowired
     private CreneauService creneauService;
 
+    /**
+     * Affiche la page des créneaux disponibles pour réservation
+     */
     @GetMapping
     public String afficherCreneauxDisponibles(Model model) {
         Utilisateur utilisateur = getUtilisateurConnecte();
@@ -29,6 +32,9 @@ public class CreneauController {
         return "creneaux/index";
     }
 
+    /**
+     * Permet à un utilisateur de réserver un créneau donné
+     */
     @PostMapping("/reserver/{id}")
     public String reserverCreneau(@PathVariable Long id, Model model) {
         Utilisateur utilisateur = getUtilisateurConnecte();
@@ -37,6 +43,9 @@ public class CreneauController {
         return "redirect:/creneaux";
     }
 
+    /**
+     * Permet à un utilisateur d'annuler une réservation
+     */
     @PostMapping("/annuler/{id}")
     public String annulerCreneau(@PathVariable Long id, Model model) {
         Utilisateur utilisateur = getUtilisateurConnecte();
@@ -45,6 +54,9 @@ public class CreneauController {
         return "redirect:/creneaux";
     }
 
+    /**
+     * Méthode privée pour récupérer l’utilisateur actuellement connecté
+     */
     private Utilisateur getUtilisateurConnecte() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof Utilisateur) {
@@ -53,13 +65,16 @@ public class CreneauController {
         return null;
     }
 
+    /**
+     * Affiche les détails d’un créneau spécifique avec calcul de la durée
+     */
     @GetMapping("/details/{id}")
     public String afficherDetailsCreneau(@PathVariable Long id, Model model) {
         Optional<Creneau> opt = creneauService.findById(id);
         if (opt.isPresent()) {
             Creneau creneau = opt.get();
 
-            // Durée calculée
+            // Calcul de la durée entre l’heure de début et de fin
             Duration duree = Duration.between(creneau.getHeureDebut(), creneau.getHeureFin());
             long heures = duree.toHours();
             long minutes = duree.toMinutes() % 60;
@@ -79,8 +94,9 @@ public class CreneauController {
         }
     }
 
-
-
+    /**
+     * Affiche un formulaire de demande de créneau pour une date donnée
+     */
     @GetMapping("/formulaire-demande")
     public String afficherFormulaireDemande(@RequestParam String date, Model model) {
         Creneau creneau = new Creneau();
@@ -88,6 +104,4 @@ public class CreneauController {
         model.addAttribute("creneau", creneau);
         return "creneaux/demander :: modalForm";
     }
-
-
 }

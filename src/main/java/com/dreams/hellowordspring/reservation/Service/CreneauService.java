@@ -17,11 +17,16 @@ public class CreneauService {
     @Autowired
     private CreneauRepository creneauRepository;
 
-    // Liste des créneaux disponibles
+    /**
+     * Retourne tous les créneaux disponibles (non réservés)
+     */
     public List<Creneau> getCreneauxDisponibles() {
         return creneauRepository.findByReserveParIsNull();
     }
-    // Réserver un créneau
+
+    /**
+     * Permet à un utilisateur de réserver un créneau libre et non passé
+     */
     @Transactional
     public boolean reserverCreneau(Long idCreneau, Utilisateur utilisateur) {
         Optional<Creneau> optionalCreneau = creneauRepository.findById(idCreneau);
@@ -39,7 +44,9 @@ public class CreneauService {
         return false;
     }
 
-    // Annuler une réservation
+    /**
+     * Annule la réservation d’un créneau si c’est l’utilisateur qui l’a réservé
+     */
     @Transactional
     public boolean annulerCreneau(Long idCreneau, Utilisateur utilisateur) {
         Optional<Creneau> optionalCreneau = creneauRepository.findById(idCreneau);
@@ -74,10 +81,16 @@ public class CreneauService {
         creneauRepository.deleteById(id);
     }
 
+    /**
+     * Retourne tous les créneaux en attente (à valider par un admin)
+     */
     public List<Creneau> getCreneauxEnAttente() {
         return creneauRepository.findByEtat(Creneau.EtatCreneau.EN_ATTENTE);
     }
 
+    /**
+     * Change l’état d’un créneau en VALIDÉ
+     */
     public void validerCreneau(Long id) {
         Optional<Creneau> creneau = creneauRepository.findById(id);
         creneau.ifPresent(c -> {
@@ -86,6 +99,9 @@ public class CreneauService {
         });
     }
 
+    /**
+     * Change l’état d’un créneau en REFUSÉ
+     */
     public void refuserCreneau(Long id) {
         Optional<Creneau> opt = creneauRepository.findById(id);
         if (opt.isPresent()) {
@@ -95,11 +111,16 @@ public class CreneauService {
         }
     }
 
-
+    /**
+     * Retourne les créneaux réservés par un utilisateur donné
+     */
     public List<Creneau> getCreneauxParUtilisateur(Utilisateur utilisateur) {
         return creneauRepository.findByReservePar(utilisateur);
     }
 
+    /**
+     * Supprime une demande de créneau si elle est en attente et que c’est bien l'utilisateur qui l’a faite
+     */
     public boolean supprimerDemandeEnAttente(Long id, Utilisateur utilisateur) {
         Optional<Creneau> creneauOpt = creneauRepository.findById(id);
         if (creneauOpt.isPresent()) {
@@ -113,11 +134,16 @@ public class CreneauService {
         return false;
     }
 
+    /**
+     * Retourne tous les créneaux validés
+     */
     public List<Creneau> getCreneauxValides() {
         return creneauRepository.findByEtat(Creneau.EtatCreneau.VALIDE);
     }
 
-
+    /**
+     * Filtrage historique : par état, par date ou les deux
+     */
     public List<Creneau> getHistoriqueDemandes(String etat, String dateStr) {
         try {
             if (etat != null && !etat.isEmpty() && dateStr != null && !dateStr.isEmpty()) {
@@ -136,6 +162,9 @@ public class CreneauService {
         }
     }
 
+    /**
+     * Vérifie s'il y a des conflits horaires avec d'autres créneaux au même lieu
+     */
     public boolean estDisponible(Creneau creneau) {
         List<Creneau> chevauchements = creneauRepository.findChevauchements(
                 creneau.getLieu(),

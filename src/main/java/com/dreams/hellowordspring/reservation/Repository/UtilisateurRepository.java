@@ -8,14 +8,24 @@ import java.util.Optional;
 
 public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long> {
 
-    // Authentification par pseudo
+    /**
+     * Recherche d'un utilisateur par pseudo (utilisé pour la connexion ou la validation d'unicité)
+     */
     Optional<Utilisateur> findByPseudo(String pseudo);
-    // Authentification par pseudo et mot de passe
 
+    /**
+     * Recherche par pseudo + mot de passe
+     */
     Optional<Utilisateur> findByPseudoAndPassword(String pseudo, String password);
 
-        List<Utilisateur> findAll(); // méthode pour obtenir une liste utilisable avec Thymeleaf
+    /**
+     * Retourne tous les utilisateurs sous forme de liste (utile pour l'affichage avec Thymeleaf)
+     */
+    List<Utilisateur> findAll(); // méthode pour obtenir une liste utilisable avec Thymeleaf
 
+    /**
+     * Compte les utilisateurs qui sont administrateurs (admin = true)
+     */
     long countByAdminTrue();
 
 }

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// Contrôleur REST pour exposer des données au format JSON
 @RestController
 @RequestMapping("/api")
 public class APIController {
@@ -23,6 +24,9 @@ public class APIController {
     @Autowired
     private CreneauService creneauService;
 
+    /**
+     * Méthode utilitaire pour récupérer l'utilisateur actuellement connecté
+     */
     private Utilisateur getUtilisateurConnecte() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof Utilisateur) {
@@ -31,6 +35,10 @@ public class APIController {
         return null;
     }
 
+    /**
+     * API pour obtenir la liste des créneaux validés (utilisée par un calendrier par ex.)
+     *
+     */
     @GetMapping("/creneaux-valides")
     @ResponseBody
     public List<Map<String, Object>> getCreneauxValides() {
@@ -60,10 +68,12 @@ public class APIController {
 
             resultats.add(evt);
         }
-
-        return resultats;
+        return resultats; // Résultat JSON envoyé au client (ex. FullCalendar)
     }
 
+    /**
+     * API pour récupérer uniquement les créneaux en attente de l'utilisateur connecté
+     */
     @GetMapping("/mes-creneaux-en-attente")
     @ResponseBody
     public List<Map<String, Object>> getMesCreneauxEnAttente() {
@@ -84,8 +94,6 @@ public class APIController {
             evt.put("color", "#ffc107"); // jaune
             resultats.add(evt);
         }
-
         return resultats;
     }
-
 }

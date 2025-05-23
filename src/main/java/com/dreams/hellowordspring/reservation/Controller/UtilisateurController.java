@@ -20,6 +20,9 @@ public class UtilisateurController {
     @Autowired
     private UtilisateurService utilisateurService;
 
+    /**
+     * Affiche la liste des utilisateurs avec tri optionnel
+     */
     @GetMapping("/utilisateurs")
     public String listeUtilisateurs(
             @RequestParam(required = false) String sort,
@@ -44,13 +47,18 @@ public class UtilisateurController {
         return "utilisateurs/index";
     }
 
+    /**
+     * Affiche le formulaire pour ajouter un nouvel utilisateur
+     */
     @GetMapping("/utilisateurs/ajouter")
     public String formAjouter(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
         return "utilisateurs/ajouter"; // <- important
     }
 
-
+    /**
+     * Enregistre un nouvel utilisateur en base
+     */
     @PostMapping("/utilisateurs")
     public String ajouterUtilisateur(@ModelAttribute Utilisateur utilisateur) {
         if (utilisateur.getPassword() != null && !utilisateur.getPassword().isBlank()) {
@@ -61,7 +69,9 @@ public class UtilisateurController {
         return "redirect:/utilisateurs";
     }
 
-
+    /**
+     * Affiche le formulaire de modification d’un utilisateur existant
+     */
     @GetMapping("/utilisateurs/modifier/{id}")
     public String formulaireModif(@PathVariable Long id, Model model) {
         Utilisateur utilisateur = utilisateurService.getById(id);
@@ -69,6 +79,9 @@ public class UtilisateurController {
         return "utilisateurs/modifier"; // ou "utilisateurs/form_utilisateur" si tu préfères
     }
 
+    /**
+     * Enregistre les modifications d’un utilisateur existant
+     */
     @PostMapping("/utilisateurs/modifier")
     public String modifierUtilisateur(@ModelAttribute Utilisateur utilisateur) {
         Utilisateur utilisateurExistant = utilisateurService.getById(utilisateur.getId());
@@ -89,12 +102,18 @@ public class UtilisateurController {
         return "redirect:/utilisateurs";
     }
 
+    /**
+     * Supprime un utilisateur par son ID
+     */
     @GetMapping("/supprimer/{id}")
     public String supprimer(@PathVariable Long id) {
         utilisateurService.delete(id);
         return "redirect:/utilisateurs";
     }
 
+    /**
+     * Affiche la page des réglages du profil utilisateur connecté
+     */
     @GetMapping("/utilisateurs/reglages")
     public String afficherReglages(Model model, HttpSession session) {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
@@ -102,6 +121,9 @@ public class UtilisateurController {
         return "utilisateurs/reglages";
     }
 
+    /**
+     * Permet à l’utilisateur connecté de modifier ses infos personnelles
+     */
     @PostMapping("/utilisateurs/reglages")
     public String modifierInfos(@ModelAttribute Utilisateur utilisateurModifie, HttpSession session) {
         Utilisateur utilisateurEnBase = utilisateurService.getById(utilisateurModifie.getId());
@@ -120,11 +142,6 @@ public class UtilisateurController {
             utilisateurService.save(utilisateurEnBase);
             session.setAttribute("utilisateur", utilisateurEnBase);
         }
-
         return "redirect:/creneaux?modif=ok";
     }
-
-
-
-
 }

@@ -12,20 +12,40 @@ import java.util.List;
 
 public interface CreneauRepository extends CrudRepository<Creneau, Long> {
 
-    // Créneaux disponibles (non réservés)
+    /**
+     * Retourne les créneaux disponibles (aucun utilisateur n’a réservé)
+     */
     List<Creneau> findByReserveParIsNull();
 
-    // Filtrage par date
+    /**
+     * Retourne les créneaux pour une date précise
+     */
     List<Creneau> findByDate(LocalDate date);
 
+    /**
+     * Retourne les créneaux selon leur état (VALIDE, EN_ATTENTE, REFUSE)
+     */
     List<Creneau> findByEtat(Creneau.EtatCreneau etat);
 
+    /**
+     * Retourne tous les créneaux réservés par un utilisateur donné
+     */
     List<Creneau> findByReservePar(Utilisateur utilisateur);
 
+    /**
+     * Retourne tous les créneaux déjà réservés (par n’importe qui)
+     */
     List<Creneau> findByReserveParIsNotNull();
 
+    /**
+     * Retourne les créneaux selon état et date (utile pour les historiques filtrés)
+     */
     List<Creneau> findByEtatAndDate(Creneau.EtatCreneau etat, LocalDate date);
 
+    /**
+     * Requête personnalisée JPQL pour détecter les conflits d'horaires.
+     * On vérifie si un créneau existe au même lieu et à la même date avec un chevauchement d'heure.
+     */
     @Query("""
     SELECT c FROM Creneau c
     WHERE c.lieu = :lieu
@@ -41,7 +61,13 @@ public interface CreneauRepository extends CrudRepository<Creneau, Long> {
             @Param("heureFin") LocalTime heureFin
     );
 
-
+    /**
+     * Compte total des créneaux
+     */
     long count();
+
+    /**
+     * Compte les créneaux selon leur état (ex : combien en attente, combien validés)
+     */
     long countByEtat(Creneau.EtatCreneau etat); // ✅ Correct type
 }

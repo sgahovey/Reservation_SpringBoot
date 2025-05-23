@@ -24,12 +24,18 @@ public class AuthentificationController {
     @Autowired
     private UtilisateurService utilisateurService;
 
-
+    /**
+     * Affiche la page de connexion
+     */
     @GetMapping("/login")
     public String afficherLogin(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
         return "Authentification/login";
     }
+
+    /**
+     * Traite la tentative de connexion manuelle (non utilisée si Spring Security est actif)
+     */
     @PostMapping("/login")
     public String traiterLogin(@ModelAttribute Utilisateur utilisateurFormulaire,
                                HttpSession session,
@@ -45,6 +51,9 @@ public class AuthentificationController {
         }
     }
 
+    /**
+     * Affiche le formulaire d'inscription
+     */
     @GetMapping("/register")
     public String afficherFormulaireInscription(Model model) {
         Utilisateur utilisateurConnecte = getUtilisateurConnecte();
@@ -53,10 +62,13 @@ public class AuthentificationController {
         return "Authentification/register";
     }
 
+    /**
+     * Traite le formulaire d'inscription
+     */
     @PostMapping("/register")
     public String enregistrerUtilisateur(@ModelAttribute Utilisateur utilisateur, Model model) {
         Utilisateur utilisateurConnecte = getUtilisateurConnecte();
-
+        // Vérifie les identifiants via le service
         Optional<Utilisateur> existingUser = utilisateurRepository.findByPseudo(utilisateur.getPseudo());
         if (existingUser.isPresent()) {
             model.addAttribute("erreur", "Ce pseudo est déjà utilisé.");
@@ -75,6 +87,9 @@ public class AuthentificationController {
         return "redirect:/login?registerSuccess";
     }
 
+    /**
+     * Récupère l’utilisateur connecté à partir du contexte de sécurité
+     */
     private Utilisateur getUtilisateurConnecte() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof Utilisateur) {
