@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head">
+
+
+</head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 
@@ -52,6 +55,11 @@
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       locale: 'fr',
+      titleFormat: { year: 'numeric', month: 'long' },
+      dayHeaderFormat: { weekday: 'long' },
+      buttonText: {
+        today: "Aujourd'hui"
+      },
       events: function(fetchInfo, successCallback, failureCallback) {
         Promise.all([
           fetch('/api/creneaux-valides').then(r => r.json()),
@@ -79,6 +87,14 @@
     });
 
     calendar.render();
+
+    //Ajout de majuscule
+    setTimeout(() => {
+      document.querySelectorAll('.fc-toolbar-title, .fc-col-header-cell-cushion').forEach(el => {
+        el.textContent = el.textContent.charAt(0).toUpperCase() + el.textContent.slice(1);
+      });
+    }, 10);
+
   });
 </script>
 
