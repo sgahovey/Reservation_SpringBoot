@@ -55,6 +55,7 @@
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       locale: 'fr',
+      firstDay: 1, // ✅ commence par lundi
       titleFormat: { year: 'numeric', month: 'long' },
       dayHeaderFormat: { weekday: 'long' },
       buttonText: {
