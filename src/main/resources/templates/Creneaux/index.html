@@ -14,7 +14,9 @@
   <span class="badge" style="background-color:#ffc107; color:black;">En attente</span>
 </div>
 
-<div id="calendar"></div>
+<div style="max-width: 1100px; margin: auto;">
+  <div id="calendar"></div>
+</div>
 
 <script th:inline="javascript">
   const isAdmin = /*[[${utilisateur != null and utilisateur.admin}]]*/ false;
