@@ -1,0 +1,120 @@
+body {
+    background: #f6f9fc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 30px;
+}
+
+h2.text-center {
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Filtres */
+form.row {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    transition: border 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #4bb0bf;
+    box-shadow: 0 0 0 3px rgba(75, 176, 191, 0.2);
+}
+
+/* Tableau */
+.table {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.table thead tr {
+    background-color: #4bb0bf;
+    color: white;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 16px;
+}
+
+.table a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.table a:hover {
+    text-decoration: underline;
+}
+
+/* Badges état */
+.badge {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.badge.bg-success {
+    background-color: #28a745;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545;
+}
+
+/* Ligne vide */
+.text-muted {
+    color: #888 !important;
+}
+/* Liens généraux dans les en-têtes */
+.table th a {
+    color: #ffffff; /* couleur par défaut (blanc) */
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+/* Survol général */
+.table th a:hover {
+    text-decoration: underline;
+    color: #ffd700; /* doré au survol */
+}
+
+/* 🎯 Spécifiquement pour Date (col 2) et État (col 7) */
+.table thead th:nth-child(2) a,   /* Date */
+.table thead th:nth-child(7) a { /* État */
+    color: #ffeaa7; /* couleur fixe différente pour bien ressortir */
+}
+
+/* Au survol : plus vif encore */
+.table thead th:nth-child(2) a:hover,
+.table thead th:nth-child(7) a:hover {
+    color: #ffcf33;
+}
