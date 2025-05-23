@@ -53,9 +53,14 @@ public class UtilisateurController {
 
     @PostMapping("/utilisateurs")
     public String ajouterUtilisateur(@ModelAttribute Utilisateur utilisateur) {
+        if (utilisateur.getPassword() != null && !utilisateur.getPassword().isBlank()) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            utilisateur.setPassword(encoder.encode(utilisateur.getPassword()));
+        }
         utilisateurService.save(utilisateur);
         return "redirect:/utilisateurs";
     }
+
 
     @GetMapping("/utilisateurs/modifier/{id}")
     public String formulaireModif(@PathVariable Long id, Model model) {
@@ -83,8 +88,6 @@ public class UtilisateurController {
         utilisateurService.save(utilisateurExistant);
         return "redirect:/utilisateurs";
     }
-
-
 
     @GetMapping("/supprimer/{id}")
     public String supprimer(@PathVariable Long id) {
