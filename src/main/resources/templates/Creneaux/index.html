@@ -91,14 +91,6 @@
     });
 
     calendar.render();
-
-    //Ajout de majuscule
-    setTimeout(() => {
-      document.querySelectorAll('.fc-toolbar-title, .fc-col-header-cell-cushion').forEach(el => {
-        el.textContent = el.textContent.charAt(0).toUpperCase() + el.textContent.slice(1);
-      });
-    }, 10);
-
   });
 </script>
 

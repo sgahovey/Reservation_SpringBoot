@@ -50,7 +50,7 @@
 
         <tbody>
         <tr th:each="creneau : ${demandes}">
-            <td th:text="${creneau.date}"></td>
+            <td th:text="${#temporals.format(creneau.date, 'd MMMM yyyy')}"></td>
             <td th:text="${creneau.heureDebut}"></td>
             <td th:text="${creneau.heureFin}"></td>
             <td th:text="${creneau.lieu}"></td>
