@@ -1,0 +1,95 @@
+body {
+    background: #f4f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 30px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Historique bouton */
+.btn-outline-primary {
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-outline-primary:hover {
+    background-color: #4bb0bf;
+    color: white;
+    border-color: #4bb0bf;
+}
+
+/* Tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 12px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+thead tr {
+    background-color: #4bb0bf;
+    color: white;
+}
+
+th, td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Liens de tri */
+th a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+th a:hover {
+    text-decoration: underline;
+}
+
+/* Actions */
+td button {
+    font-size: 1rem;
+    padding: 6px 10px;
+    margin: 0 4px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+td form {
+    display: inline-block;
+}
+
+td button[type="submit"]:first-child {
+    background-color: #28a745;
+    color: white;
+}
+
+td button[type="submit"]:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+td button:hover {
+    opacity: 0.85;
+}
+
+.text-muted {
+    color: #888 !important;
+}
