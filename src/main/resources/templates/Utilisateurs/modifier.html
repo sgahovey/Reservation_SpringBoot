@@ -1,5 +1,5 @@
-<form th:action="@{/utilisateurs}" th:object="${utilisateur}" method="post">
-    <input type="hidden" th:field="*{id}"/>
+<form th:action="@{/utilisateurs/modifier}" th:object="${utilisateur}" method="post">
+<input type="hidden" th:field="*{id}"/>
 
     <label>Nom :</label>
     <input type="text" th:field="*{nom}" required><br><br>
@@ -13,8 +13,8 @@
     <label>Email :</label>
     <input type="email" th:field="*{email}" required><br><br>
 
-    <label>Mot de passe :</label>
-    <input type="password" th:field="*{password}" required><br><br>
+    <label>Nouveau mot de passe :</label>
+    <input type="password" th:field="*{password}"><br><br>
 
     <label>Admin :</label>
     <input type="checkbox" th:field="*{admin}"><br><br>

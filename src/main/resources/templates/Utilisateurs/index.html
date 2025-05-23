@@ -38,7 +38,7 @@
         <td th:text="${u.admin ? 'Oui' : 'Non'}"></td>
         <td>
             <a href="#" th:data-id="${u.id}" class="btn-modifier">✏️</a>
-            <a th:href="@{'/utilisateurs/supprimer/' + ${u.id}}"
+            <a th:href="@{'/supprimer/' + ${u.id}}"
                onclick="return confirm('Confirmer la suppression ?')">❌</a>
         </td>
     </tr>

@@ -64,6 +64,27 @@ public class UtilisateurController {
         return "utilisateurs/modifier"; // ou "utilisateurs/form_utilisateur" si tu préfères
     }
 
+    @PostMapping("/utilisateurs/modifier")
+    public String modifierUtilisateur(@ModelAttribute Utilisateur utilisateur) {
+        Utilisateur utilisateurExistant = utilisateurService.getById(utilisateur.getId());
+
+        utilisateurExistant.setNom(utilisateur.getNom());
+        utilisateurExistant.setPrenom(utilisateur.getPrenom());
+        utilisateurExistant.setPseudo(utilisateur.getPseudo());
+        utilisateurExistant.setEmail(utilisateur.getEmail());
+        utilisateurExistant.setAdmin(utilisateur.isAdmin());
+
+        // ✅ encodage du nouveau mot de passe si fourni
+        if (utilisateur.getPassword() != null && !utilisateur.getPassword().isBlank()) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            utilisateurExistant.setPassword(encoder.encode(utilisateur.getPassword()));
+        }
+
+        utilisateurService.save(utilisateurExistant);
+        return "redirect:/utilisateurs";
+    }
+
+
 
     @GetMapping("/supprimer/{id}")
     public String supprimer(@PathVariable Long id) {
@@ -80,23 +101,27 @@ public class UtilisateurController {
 
     @PostMapping("/utilisateurs/reglages")
     public String modifierInfos(@ModelAttribute Utilisateur utilisateurModifie, HttpSession session) {
-        Utilisateur original = (Utilisateur) session.getAttribute("utilisateur");
-        if (original != null) {
-            original.setNom(utilisateurModifie.getNom());
-            original.setPrenom(utilisateurModifie.getPrenom());
-            original.setPseudo(utilisateurModifie.getPseudo());
-            original.setEmail(utilisateurModifie.getEmail());
+        Utilisateur utilisateurEnBase = utilisateurService.getById(utilisateurModifie.getId());
 
-            if (utilisateurModifie.getPassword() != null && !utilisateurModifie.getPassword().isEmpty()) {
+        if (utilisateurEnBase != null) {
+            utilisateurEnBase.setNom(utilisateurModifie.getNom());
+            utilisateurEnBase.setPrenom(utilisateurModifie.getPrenom());
+            utilisateurEnBase.setPseudo(utilisateurModifie.getPseudo());
+            utilisateurEnBase.setEmail(utilisateurModifie.getEmail());
+
+            if (utilisateurModifie.getPassword() != null && !utilisateurModifie.getPassword().isBlank()) {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                original.setPassword(encoder.encode(utilisateurModifie.getPassword()));
+                utilisateurEnBase.setPassword(encoder.encode(utilisateurModifie.getPassword()));
             }
 
-            utilisateurService.save(original);
-            session.setAttribute("utilisateur", original);
+            utilisateurService.save(utilisateurEnBase);
+            session.setAttribute("utilisateur", utilisateurEnBase);
         }
 
-        return "redirect:/creneaux";
+        return "redirect:/creneaux?modif=ok";
     }
+
+
+
 
 }
