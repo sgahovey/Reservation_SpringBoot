@@ -68,6 +68,11 @@ public class SecurityConfig {
                         .permitAll()
                 );
 
+        // 🔒 Redirection en cas de 403
+        http.exceptionHandling(exception -> exception
+                .accessDeniedPage("/access-denied")
+        );
+
         return http.build();
     }
 
