@@ -23,6 +23,7 @@
                     </a>
                 </li>
 
+                <li class="nav-item" th:if="${utilisateur != null and utilisateur.admin}">
                 <a class="nav-link text-danger" th:href="@{/admin/stats}">
                     <strong>📊 Statistiques</strong>
                 </a>
