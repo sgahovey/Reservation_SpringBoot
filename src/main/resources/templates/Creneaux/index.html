@@ -75,8 +75,19 @@
       },
 
       dateClick: function(info) {
-        ouvrirModal(info.dateStr, isAdmin);
-      },
+        const dateCliquee = new Date(info.dateStr);
+        const dateAujourdhui = new Date();
+        dateAujourdhui.setHours(0, 0, 0, 0); // on ignore l'heure
+
+        // ✅ Si admin → toujours autorisé
+        // ❌ Si non admin → seulement si la date n’est pas dans le passé
+        if (isAdmin || dateCliquee >= dateAujourdhui) {
+          ouvrirModal(info.dateStr, isAdmin);
+        } else {
+          alert("Vous ne pouvez pas faire une demande pour une date passée.");
+        }
+      }
+      ,
 
       eventClick: function(info) {
         const id = info.event.id;
