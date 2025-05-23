@@ -23,7 +23,7 @@
         <th>Email</th>
         <th>
             <a th:href="@{/utilisateurs(sort='admin', direction=${sort == 'admin' and direction == 'asc' ? 'desc' : 'asc'})}">
-                Admin <span th:text="${sort == 'admin' ? (direction == 'asc' ? '▲' : '▼') : ''}"></span>
+                Statut <span th:text="${sort == 'admin' ? (direction == 'asc' ? '▲' : '▼') : ''}"></span>
             </a>
         </th>
     </tr>
@@ -35,7 +35,10 @@
         <td th:text="${u.prenom}"></td>
         <td th:text="${u.pseudo}"></td>
         <td th:text="${u.email}"></td>
-        <td th:text="${u.admin ? 'Oui' : 'Non'}"></td>
+        <td>
+            <span th:if="${u.admin}" class="badge bg-warning">Administrateur</span>
+            <span th:if="${!u.admin}" class="badge bg-primary">Utilisateur</span>
+        </td>
         <td>
             <a href="#" th:data-id="${u.id}" class="btn-modifier">✏️</a>
             <a th:href="@{'/supprimer/' + ${u.id}}"
