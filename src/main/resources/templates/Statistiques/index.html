@@ -1,104 +1,66 @@
+
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head"></head>
 <body>
+
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container mt-5">
-    <h2 class="mb-4">📊 Statistiques administrateur</h2>
-
-    <div class="row">
-        <!-- Total utilisateurs -->
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-header">Utilisateurs</div>
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${totalUtilisateurs}">0</h5>
-                    <p class="card-text">Total d’utilisateurs enregistrés.</p>
-                </div>
-            </div>
+    <h2 class="text-center mb-4">📊 Statistiques administrateur</h2>
+    <div class="stats-dashboard">
+        <div class="stats-card card-blue">
+            <h4>Utilisateurs</h4>
+            <div class="stat-value" th:text="${totalUtilisateurs}">0</div>
+            <p>Total d’utilisateurs enregistrés.</p>
         </div>
 
-        <!-- Admins -->
-        <div class="col-md-4">
-            <div class="card text-white bg-warning mb-3">
-                <div class="card-header">Administrateurs</div>
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${totalAdmins}">0</h5>
-                    <p class="card-text">Nombre de comptes administrateurs.</p>
-                </div>
-            </div>
+        <div class="stats-card card-yellow">
+            <h4>Administrateurs</h4>
+            <div class="stat-value" th:text="${totalAdmins}">0</div>
+            <p>Nombre de comptes administrateurs.</p>
         </div>
 
-        <!-- Utilisateurs classiques -->
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-header">Utilisateurs simples</div>
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${totalSimples}">0</h5>
-                    <p class="card-text">Nombre d’utilisateurs non-admin.</p>
-                </div>
-            </div>
+        <div class="stats-card card-green">
+            <h4>Utilisateurs simples</h4>
+            <div class="stat-value" th:text="${totalSimples}">0</div>
+            <p>Nombre d’utilisateurs non-admin.</p>
         </div>
     </div>
+
+    <h2 class="text-center mt-5 mb-4">📆 Statistiques des demandes de créneaux</h2>
+    <div class="stats-dashboard">
+        <div class="stats-card card-blue">
+            <h4>Demandes totales</h4>
+            <div class="stat-value" th:text="${totalDemandes}">0</div>
+            <p>Toutes les demandes enregistrées.</p>
+        </div>
+
+        <div class="stats-card card-green">
+            <h4>Validées</h4>
+            <div class="stat-value" th:text="${demandesValidees}">0</div>
+            <p>Demandes approuvées.</p>
+        </div>
+
+        <div class="stats-card card-yellow">
+            <h4>En attente</h4>
+            <div class="stat-value" th:text="${demandesEnAttente}">0</div>
+            <p>Demandes encore en attente.</p>
+        </div>
+
+        <div class="stats-card card-red">
+            <h4>Refusées</h4>
+            <div class="stat-value" th:text="${demandesRefusees}">0</div>
+            <p>Demandes refusées.</p>
+        </div>
+    </div>
+
+    <div class="chart-container mt-5" style="max-width: 300px; margin: auto;">
+        <canvas id="etatCreneauxChart" style="max-height: 300px;"></canvas>
+    </div>
+
 </div>
 
-<div class="row mt-4">
-    <div class="col-12">
-        <h2 class="mb-4">📆 Statistiques des demandes de créneaux</h2>
-
-    </div>
-
-    <div class="col-md-4">
-        <div class="card bg-info text-white mb-3">
-            <div class="card-header">Demandes totales</div>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${totalDemandes}">0</h5>
-                <p class="card-text">Toutes les demandes enregistrées.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card bg-success text-white mb-3">
-            <div class="card-header">Validées</div>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${demandesValidees}">0</h5>
-                <p class="card-text">Demandes approuvées.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card text-white bg-warning mb-3">
-            <div class="card-header">En attente</div>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${demandesEnAttente}">0</h5>
-                <p class="card-text">Demandes encore en attente.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-4">
-    <div class="card bg-danger text-white mb-3">
-        <div class="card-header">Refusées</div>
-        <div class="card-body">
-            <h5 class="card-title" th:text="${demandesRefusees}">0</h5>
-            <p class="card-text">Demandes refusées.</p>
-        </div>
-    </div>
-</div>
-</div>
-
-<div class="col-md-6">
-    <div style="position: relative; width: 100%; max-width: 300px; margin: auto;">
-        <canvas id="etatCreneauxChart"></canvas>
-    </div>
-</div>
-
-</div>
-</body>
 <script>
     const ctx = document.getElementById('etatCreneauxChart').getContext('2d');
     const chart = new Chart(ctx, {
@@ -112,8 +74,7 @@
                     [[${demandesEnAttente}]],
                     [[${demandesRefusees}]]
                 ],
-
-                backgroundColor: ['#198754', '#ffc107', '#dc3545'], // vert, rouge
+                backgroundColor: ['#a8e6cf', '#fffac8', '#ff8b94'],
                 borderWidth: 1
             }]
         },
@@ -128,4 +89,5 @@
     });
 </script>
 
+</body>
 </html>

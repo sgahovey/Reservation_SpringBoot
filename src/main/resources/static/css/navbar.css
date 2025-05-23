@@ -1,52 +1,67 @@
-/* --- HEADER NAVBAR --- */
+
+/* ===== NAVBAR CLEAN STYLES ===== */
 .navbar {
-    border-radius: 16px;
-    background: #ffffffdd;
-    backdrop-filter: blur(6px);
-    transition: background 0.3s ease;
+    background: linear-gradient(to right, #ffe0f0, #fff6f9) !important;
+    border-bottom: 2px solid #ffd6e0;
+    box-shadow: 0 4px 12px rgba(255, 183, 197, 0.4);
+    border-radius: 0 0 2rem 2rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .navbar-brand {
-    font-size: 1.4rem;
     font-weight: bold;
-    color: #4bb0bf !important;
+    color: #ff6f91 !important;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
 }
 
-.navbar-nav .nav-link {
+.nav-link {
+    color: #555 !important;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
-.navbar-nav .nav-link:hover {
-    color: #4bb0bf !important;
+.nav-link:hover {
+    color: #ff6f91 !important;
+    text-decoration: underline;
 }
 
 .navbar-text {
-    font-size: 0.9rem;
-    color: #333;
+    font-weight: 500;
+    color: #444;
 }
 
-/* Badge admin */
 .badge.bg-warning {
-    font-size: 0.75rem;
-    padding: 4px 8px;
-    border-radius: 12px;
+    background-color: #ffe0b3 !important;
+    color: #7a4d00 !important;
 }
 
-/* Boutons déconnexion/réglages */
 .btn-outline-secondary,
 .btn-outline-danger {
-    transition: all 0.3s ease;
+    border-radius: 1rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
 }
 
 .btn-outline-secondary:hover {
-    background: #4bb0bf;
-    color: white;
-    border-color: #4bb0bf;
+    background-color: #f3e4ff;
+    border-color: #d2c1ff;
+    color: #7b3ad0;
 }
 
 .btn-outline-danger:hover {
-    background: #dc3545;
-    color: white;
-    border-color: #dc3545;
+    background-color: #ffe2e6;
+    border-color: #ff99a5;
+    color: #d00028;
+}
+
+.navbar .btn,
+.navbar form {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    display: inline-flex;
+    align-items: center;
 }

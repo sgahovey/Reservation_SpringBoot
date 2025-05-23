@@ -1,0 +1,53 @@
+
+/* ===== MODAL STYLES ===== */
+.modal-content {
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 24px rgba(255, 183, 197, 0.2);
+    border: none;
+}
+
+.modal-header {
+    background: #ffe0ec;
+    border-bottom: none;
+    border-radius: 2rem 2rem 0 0;
+}
+
+.modal-title {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    color: #ff6f91;
+}
+
+.modal-body label {
+    font-weight: 600;
+    color: #444;
+}
+
+.modal-body input,
+.modal-body select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #ffe0ec;
+    border-radius: 1rem;
+    background: #fff7fa;
+    margin-bottom: 1rem;
+}
+
+.modal-footer .btn {
+    border-radius: 1rem;
+    padding: 0.6rem 1.2rem;
+}
+
+.modal-footer .btn-primary {
+    background: linear-gradient(to right, #ffb6b9, #fae3d9);
+    border: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.modal-footer .btn-secondary {
+    background: #f3f3f3;
+    border: none;
+    color: #555;
+}

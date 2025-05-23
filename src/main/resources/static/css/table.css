@@ -1,0 +1,29 @@
+
+/* ===== TABLE STYLES ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    background: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    font-family: 'Quicksand', sans-serif;
+}
+
+table th {
+    background-color: #ffe0ec;
+    padding: 1rem;
+    text-align: left;
+    color: #444;
+    font-weight: 600;
+}
+
+table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f9dbe2;
+}
+
+table tr:hover {
+    background-color: #fff5f7;
+}

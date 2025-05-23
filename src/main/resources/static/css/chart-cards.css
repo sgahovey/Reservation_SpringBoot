@@ -1,0 +1,67 @@
+
+/* ===== STATISTICS DASHBOARD - KAWAII PASTEL ===== */
+
+.stats-dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.stats-card {
+    flex: 1 1 250px;
+    background: #fff7fa;
+    border: 2px solid #ffe0ec;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 6px 16px rgba(255, 183, 197, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 183, 197, 0.3);
+}
+
+.stats-card h4 {
+    font-family: 'Quicksand', sans-serif;
+    color: #ff6f91;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.stats-card .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 0.5rem;
+}
+
+.stats-card p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Color codes */
+.card-blue {
+    background-color: #e3f2fd;
+    border-color: #bbdefb;
+}
+
+.card-green {
+    background-color: #e8f5e9;
+    border-color: #c8e6c9;
+}
+
+.card-yellow {
+    background-color: #fffde7;
+    border-color: #fff59d;
+}
+
+.card-red {
+    background-color: #ffebee;
+    border-color: #ffcdd2;
+}
