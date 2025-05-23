@@ -79,11 +79,7 @@ public class CreneauController {
         }
     }
 
-    @PostMapping("/delete/{id}")
-    public String supprimerCreneau(@PathVariable Long id) {
-        creneauService.deleteById(id); // ou une méthode sécurisée
-        return "redirect:/creneaux?deleteSuccess";
-    }
+
 
     @GetMapping("/formulaire-demande")
     public String afficherFormulaireDemande(@RequestParam String date, Model model) {
@@ -91,14 +87,6 @@ public class CreneauController {
         creneau.setDate(LocalDate.parse(date));
         model.addAttribute("creneau", creneau);
         return "creneaux/demander :: modalForm";
-    }
-
-    @GetMapping("/formulaire-ajout")
-    public String afficherFormulaireAjout(@RequestParam String date, Model model) {
-        Creneau creneau = new Creneau();
-        creneau.setDate(LocalDate.parse(date));
-        model.addAttribute("creneau", creneau);
-        return "creneaux/ajouter :: modalAjout";
     }
 
 

@@ -27,7 +27,7 @@
 </div>
 <div class="modal-footer">
     <div th:if="${utilisateur != null and utilisateur.admin}">
-        <form th:action="@{'/creneaux/delete/' + ${creneau.id}}" method="post"
+        <form th:action="@{'/admin/delete/' + ${creneau.id}}" method="post"
               onsubmit="return confirm('Confirmer la suppression du créneau ?');">
             <button type="submit" class="btn btn-danger">🗑</button>
         </form>

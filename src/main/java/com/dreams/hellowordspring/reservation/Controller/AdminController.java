@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.dreams.hellowordspring.reservation.Model.Creneau.EtatCreneau;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -54,6 +55,33 @@ private UtilisateurRepository utilisateurRepository;
         model.addAttribute("sort", sort);
         model.addAttribute("direction", direction);
         return "creneaux_Admin/demandes";
+    }
+
+    @GetMapping("/ajouter")
+    public String formAjouter(Model model) {
+        model.addAttribute("creneau", new Creneau());
+        return "admin/ajouter";
+    }
+
+    @GetMapping("/formulaire-ajout")
+    public String afficherFormulaireAjout(@RequestParam String date, Model model) {
+        Creneau creneau = new Creneau();
+        creneau.setDate(LocalDate.parse(date));
+        model.addAttribute("creneau", creneau);
+        return "creneaux_Admin/ajouter :: modalAjout";
+    }
+
+    @PostMapping("/ajouter")
+    public String ajouterCreneau(@ModelAttribute Creneau creneau) {
+        creneau.setEtat(EtatCreneau.VALIDE);
+        creneauService.save(creneau);
+        return "redirect:/creneaux";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String supprimerCreneau(@PathVariable Long id) {
+        creneauService.deleteById(id); // ou une méthode sécurisée
+        return "redirect:/creneaux?deleteSuccess";
     }
 
 

@@ -31,7 +31,7 @@
 
 <script>
   function ouvrirModal(dateStr, isAdmin) {
-    const url = isAdmin ? '/creneaux/formulaire-ajout?date=' : '/creneaux/formulaire-demande?date=';
+    const url = isAdmin ? '/admin/formulaire-ajout?date=' : '/creneaux/formulaire-demande?date=';
 
     fetch(url + dateStr)
             .then(response => response.text())
